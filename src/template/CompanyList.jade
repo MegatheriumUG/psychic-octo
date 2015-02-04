@@ -1,6 +1,19 @@
-doctype html
+- var companies = {companies: [{name: "Dressiety", description: "Eine Modeplattform", img: "http://lorempixel.com/100/100/abstract/"}, {name: "BCB", description: "Bank Project Management", img: "http://lorempixel.com/100/100/abstract/"}]}
 html
 	head
+		title="Psychic Octophant - A Project Manager"
+		link(href="css/stylesheet.css" rel="stylesheet")
 	body
-		p Es gibt =companies.length Unternehmen!
-		p= companies.length
+		section.itemList
+			each company in companies.companies
+				a(href="ProjectList.html")
+					.item
+						table.itemTable
+							tr
+								td.shrink
+									.tableWrapper
+										img.itemImage(src= company.img)
+									
+								td
+									h3.itemName.left= company.name
+									p.itemDescription.left= company.description
