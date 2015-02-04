@@ -5,7 +5,7 @@ var db = require('mongoose'),
 var app = express();
 
 // verbinde mit Datenbank
-db.connect('mongodb://localhost:27017');
+db.connect('mongodb://37.120.171.34:27017/psychic-octo');
 
 //app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 
