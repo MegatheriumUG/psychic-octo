@@ -1,0 +1,108 @@
+.top {
+	vertical-align: top;
+}
+
+.bottom {
+	vertical-align: bottom;
+}
+
+.left {
+	text-align: left;
+	margin-left: 1em;
+}
+
+.right {
+	text-align: right;
+	margin-right: 1em;
+}
+
+.tableWrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;	
+}
+
+.green {
+	color: green;
+	border-color: green;
+}
+.blue {
+	color: blue;
+	border-color: blue;
+}
+.red {
+	color: red;
+	border-color: red;
+}
+
+.itemList {
+	width: 100%;
+	display: inline-block;
+	font-family: "Myriad Pro";
+	.item {
+		width: 80%;
+		:hover {
+			background-color: gray;
+		}
+		.itemTable {
+			width: 100%;
+			border: black;
+			margin-left: auto;
+			margin-right: auto;
+
+			.shrink {
+				width: 1%;
+			}
+		}
+
+		.itemImage {
+			left: 0;
+			width: 5em;
+			height: 5em;
+		}
+		.itemName {
+			top: 5px;
+		}
+		.itemDescription {
+			bottom: 2px;
+		}
+		.itemNumbers {
+			position: relative;
+			vertical-align: top;
+			text-align: right;
+			right: 0;
+			top: 5px;
+			div {
+				display: inline;
+				font-weight: bold;
+			}
+			
+		}
+
+		.progressBar {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			font-size: 0;
+			div {
+				height: 4px;
+				margin: 0;
+				display: inline-block;
+			}
+			
+			.green {
+				width: 50%;
+				background-color: green;
+			}
+			.blue {
+				width: 30%;
+				background-color: blue;
+			}
+			.red {
+				width: 20%;
+				background-color: red;
+			}
+		}
+		
+	}
+}

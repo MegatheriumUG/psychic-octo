@@ -1,0 +1,35 @@
+- var projects = { projects : [{name: "Dressiety", description: "Eine Modeplattform", img: "http://lorempixel.com/100/100/abstract/", numbers: [200, 175, 35] },{name: "Projectmanager",description: "Doing your tasks FAST!",img: "http://lorempixel.com/100/100/abstract/", numbers: [3250, 25, 0]},{name: "BCB CR Manager",description: "Managing your CR",img: "http://lorempixel.com/100/100/abstract/", numbers: [203, 796, 7]}]}
+html
+	head
+		title="Psychic Octophant - A Project Manager"
+		link(href="css/stylesheet.css" rel="stylesheet")
+	body
+		section.itemList
+			each project in projects.projects
+				.item
+					table.itemTable
+						tr
+							td.shrink
+								.tableWrapper
+									img.itemImage(src=project.img)
+								
+							td.top.left
+								h3.itemName= project.name
+								p.itemDescription= project.description
+							td.top.right
+								.itemNumbers
+									.green= project.numbers[0]
+									.separator |
+									.blue= project.numbers[1]
+									.separator |
+									.red= project.numbers[2]
+						tr
+							td(colspan="3")
+								- var factor = 100.0 / (project.numbers[0] + project.numbers[1] + project.numbers[2])
+								- var greenWidth = project.numbers[0] * factor
+								- var blueWidth = project.numbers[1] * factor
+								- var redWidth = project.numbers[2] * factor
+								.progressBar
+									.green(style="width: " + greenWidth + "%")
+									.blue( style="width: " + blueWidth + "%")
+									.red(  style="width: " + redWidth + "%")
