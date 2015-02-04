@@ -6,6 +6,7 @@ var app = express();
 
 // verbinde mit Datenbank
 db.connect('mongodb://37.120.171.34:27017/psychic-octo');
+app.use("/css", express.static("./template/css"));
 
 //app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 
