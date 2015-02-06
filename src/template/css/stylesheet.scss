@@ -35,6 +35,33 @@
 	border-color: red;
 }
 
+.horiz-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.vert-center {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.icon {
+	max-width: 20px;
+	max-height: 20px;
+}
+
+.form {
+	width: 50%;
+	font-family: "Myriad Pro";
+	div {
+		display: block;
+		p {
+			display: inline-block;
+			margin-right: 10px;
+		}
+	}
+}
+
 .itemList {
 	width: 100%;
 	display: inline-block;
@@ -47,8 +74,7 @@
 		.itemTable {
 			width: 100%;
 			border: black;
-			margin-left: auto;
-			margin-right: auto;
+			
 
 			.shrink {
 				width: 1%;
@@ -106,3 +132,4 @@
 		
 	}
 }
+

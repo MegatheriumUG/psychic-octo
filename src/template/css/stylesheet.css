@@ -46,45 +46,76 @@
 }
 
 /* line 38, stylesheet.scss */
+.horiz-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 43, stylesheet.scss */
+.vert-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* line 48, stylesheet.scss */
+.icon {
+  max-width: 20px;
+  max-height: 20px;
+}
+
+/* line 53, stylesheet.scss */
+.form {
+  width: 50%;
+  font-family: "Myriad Pro";
+}
+/* line 56, stylesheet.scss */
+.form div {
+  display: block;
+}
+/* line 58, stylesheet.scss */
+.form div p {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* line 65, stylesheet.scss */
 .itemList {
   width: 100%;
   display: inline-block;
   font-family: "Myriad Pro";
 }
-/* line 42, stylesheet.scss */
+/* line 69, stylesheet.scss */
 .itemList .item {
   width: 80%;
 }
-/* line 44, stylesheet.scss */
+/* line 71, stylesheet.scss */
 .itemList .item :hover {
   background-color: gray;
 }
-/* line 47, stylesheet.scss */
+/* line 74, stylesheet.scss */
 .itemList .item .itemTable {
   width: 100%;
   border: black;
-  margin-left: auto;
-  margin-right: auto;
 }
-/* line 53, stylesheet.scss */
+/* line 79, stylesheet.scss */
 .itemList .item .itemTable .shrink {
   width: 1%;
 }
-/* line 58, stylesheet.scss */
+/* line 84, stylesheet.scss */
 .itemList .item .itemImage {
   left: 0;
   width: 5em;
   height: 5em;
 }
-/* line 63, stylesheet.scss */
+/* line 89, stylesheet.scss */
 .itemList .item .itemName {
   top: 5px;
 }
-/* line 66, stylesheet.scss */
+/* line 92, stylesheet.scss */
 .itemList .item .itemDescription {
   bottom: 2px;
 }
-/* line 69, stylesheet.scss */
+/* line 95, stylesheet.scss */
 .itemList .item .itemNumbers {
   position: relative;
   vertical-align: top;
@@ -92,35 +123,35 @@
   right: 0;
   top: 5px;
 }
-/* line 75, stylesheet.scss */
+/* line 101, stylesheet.scss */
 .itemList .item .itemNumbers div {
   display: inline;
   font-weight: bold;
 }
-/* line 82, stylesheet.scss */
+/* line 108, stylesheet.scss */
 .itemList .item .progressBar {
   margin: 0;
   padding: 0;
   width: 100%;
   font-size: 0;
 }
-/* line 87, stylesheet.scss */
+/* line 113, stylesheet.scss */
 .itemList .item .progressBar div {
   height: 4px;
   margin: 0;
   display: inline-block;
 }
-/* line 93, stylesheet.scss */
+/* line 119, stylesheet.scss */
 .itemList .item .progressBar .green {
   width: 50%;
   background-color: green;
 }
-/* line 97, stylesheet.scss */
+/* line 123, stylesheet.scss */
 .itemList .item .progressBar .blue {
   width: 30%;
   background-color: blue;
 }
-/* line 101, stylesheet.scss */
+/* line 127, stylesheet.scss */
 .itemList .item .progressBar .red {
   width: 20%;
   background-color: red;

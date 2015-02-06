@@ -8,7 +8,7 @@ html
 			each company in companies.companies
 				a(href="/ProjectList")
 					.item
-						table.itemTable
+						table.itemTable.horiz-center
 							tr
 								td.shrink
 									.tableWrapper
@@ -17,3 +17,8 @@ html
 								td
 									h3.itemName.left= company.name
 									p.itemDescription.left= company.description
+								td
+									.tableWrapper
+										img.icon(src="img/edit.png")
+			a(href="CompanyAdd.html")
+				img.icon(src="img/add.png")
