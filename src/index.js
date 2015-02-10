@@ -1,21 +1,24 @@
-var db = require('mongoose'),
+var bodyParser = require('body-parser'),
+	config = require('./config.js'),
+	db = require('mongoose'),
 	express = require('express'),
 	fs = require('fs'),
 	jade = require('jade');
 var app = express();
 
 // verbinde mit Datenbank
-db.connect('mongodb://37.120.171.34:27017/psychic-octo');
+db.connect('mongodb://'+config.db.ip+':'+config.db.port+'/'+config.db.db);
 app.use("/css", express.static("./template/css"));
 app.use("/img", express.static("./template/img")); 	
 
-//app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 
 // mache body parsing und rendere templates automatisch
 app.use(function(req, res, next) {
 	var send = res.send.bind(res);
 	res.send = function(content) {
-		if (typeof content === 'string') return content;
+		if (typeof content === 'string') return send(content);
+		if (!content.template) return send(content);
 
 		fs.readFile('./template/'+content.template+'.jade', function(err, tpl) {
 			if (err) return send('bambambam... error, sry pplz');

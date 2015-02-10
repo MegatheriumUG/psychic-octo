@@ -1,7 +1,7 @@
 {
 	"name": "psychic-octo",
 	"version": "0.0.1",
-	"description": "a psychic octopus - seems like he took to much psilocybin!",
+	"description": "a psychic octophant - seems like someone took to much psilocybin!",
 	"author": "Martin Bories|Florian Valerius",
 	"contributors": [
 		{"name": "Martin Bories", "email": "martin.bories@dressiety.de"},
@@ -11,6 +11,8 @@
 		"start": "node index.js"
 	},
 	"dependencies": {
+		"async": "*",
+		"body-parser": "*",
 		"express": "4.2.x",
 		"jade": "*",
 		"mongoose": "3.8.x"

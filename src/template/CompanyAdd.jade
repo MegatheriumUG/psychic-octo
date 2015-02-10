@@ -5,15 +5,15 @@ html
 	body
 		.horiz-center.form
 			h2 Neues Unternehmen erstellen
-			form(method="post")
+			form(method="post" action="/CompanyAdd")
 				div
 					p Name
-					input(type="text" name="Name")
+					input(type="text" name="name")
 				div
 					p Beschreibung
-					input(type="text" name="Description")
+					input(type="text" name="description")
 				div
 					p Bild-URL
-					input(type="text" name="Image")
+					input(type="file" name="image")
 				div
-					input(type="submit" name="Submit")
+					input(type="submit")
