@@ -1,8 +1,10 @@
-html
+html(ng-app='psychicOctophant')
 	head
 		title="Psychic Octophant - A Project Manager"
 		link(href="css/stylesheet.css" rel="stylesheet")
+		script(src="js/angular.js")
 	body
+<<<<<<< HEAD
 		section.itemList
 			each company in companies
 				a(href="/ProjectList?companyId="+company._id)
@@ -22,5 +24,22 @@ html
 									.tableWrapper
 										a(href="/CompanyEdit?companyId="+company._id)
 											img.icon(src="img/edit.png")
+=======
+		section.itemList(ng-controller="companyListController")
+			
+			a(href="/ProjectList" ng-repeat="company in companies")
+				.item
+					table.itemTable.horiz-center
+						tr
+							td.shrink
+								.tableWrapper
+									img.itemImage(src="{{company.img}}")
+							td
+								h3.itemName.left {{company.name}}
+								p.itemDescription.left {{company.description}}
+							td
+								.tableWrapper
+									img.icon(src="img/edit.png")
+>>>>>>> origin/master
 			a(href="/CompanyAdd")
 				img.icon(src="img/add.png")
