@@ -42,3 +42,52 @@ GET /ProjectList
 
 	Antwort:
 		{projects: [alle gefunden projekte]}
+
+POST /ProjectTaskStatusAdd
+	Fügt einen neuen projekttask-Status hinzu.
+
+	Parameter:
+		name 	Name des Stauts ("Fertig", "In Arbeit", "In Revision", "Testing", ...)
+		finished	wenn übergeben und nicht leer, wird ein Task mit diesem Status als "abgeschlossen" markiert
+		company	ID des Unternehmens
+		project	ID des Projektes
+
+	Antwort:
+		{statusId: 'ID des erstellten Status'}
+
+GET /ProjectTaskStatusList
+	Listet alle Projekt-Task-Stati auf. Ein Status ist z.B. "Fertig", "In Arbeit", "In Revision", "Rückmeldung erwartet"
+	Model: ./model/ProjectTaskStatus.js
+
+	Parameter:
+		companyId 	(optional) wenn übergeben, filtert nach dem Unternehmen
+		projectId 	(optional) wenn übergeben, filtert nach dem Projekt
+
+	Antwort:
+		{status: [alle gefundenen Stati]}
+
+
+GET /ProjectTaskList
+	Liefert alle ProjectTasks, optional filterbar.
+	Model: ./model/ProjectTask.js
+
+	Parameter:
+		title	(optional) nur Tasks, die diesen title (case-insensitiv) beinhalten, werden angezeigt
+		projectId	(optional) nur Tasks aus diesem Projekt werden angezeigt
+		time	(optional) nur Tasks nach oder zu diesem Zeitstempel (in ms) werden angezeigt
+
+	Antwort:
+		{tasks: [alle gefundenen tasks]}
+
+POST /ProjectTaskAdd
+	Erstellt einen neuen ProjectTask.
+	Model: ./model/ProjectTask.js
+
+	Parameter:
+		project
+		title
+		description
+		status
+
+	Antwort:
+		{taskId: 'id des erstellten Task'}
