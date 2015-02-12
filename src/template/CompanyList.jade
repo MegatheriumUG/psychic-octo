@@ -5,7 +5,7 @@ html
 	body
 		section.itemList
 			each company in companies
-				a(href="/ProjectList")
+				a(href="/ProjectList?companyId="+company._id)
 					.item
 						table.itemTable.horiz-center
 							tr
@@ -20,6 +20,7 @@ html
 									p.itemDescription.left= company.description
 								td
 									.tableWrapper
-										img.icon(src="img/edit.png")
-			a(href="CompanyAdd")
+										a(href="/CompanyEdit?companyId="+company._id)
+											img.icon(src="img/edit.png")
+			a(href="/CompanyAdd")
 				img.icon(src="img/add.png")
