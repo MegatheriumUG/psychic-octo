@@ -1,24 +1,24 @@
 - var companies = {companies: [{name: "Dressiety", description: "Eine Modeplattform", img: "http://lorempixel.com/100/100/abstract/"}, {name: "BCB", description: "Bank Project Management", img: "http://lorempixel.com/100/100/abstract/"}]}
-html
+html(ng-app='psychicOctophant')
 	head
 		title="Psychic Octophant - A Project Manager"
 		link(href="css/stylesheet.css" rel="stylesheet")
+		script(src="js/angular.js")
 	body
-		section.itemList
-			each company in companies.companies
-				a(href="/ProjectList")
-					.item
-						table.itemTable.horiz-center
-							tr
-								td.shrink
-									.tableWrapper
-										img.itemImage(src= company.img)
-									
-								td
-									h3.itemName.left= company.name
-									p.itemDescription.left= company.description
-								td
-									.tableWrapper
-										img.icon(src="img/edit.png")
-			a(href="CompanyAdd.html")
+		section.itemList(ng-controller="companyListController")
+			
+			a(href="/ProjectList" ng-repeat="company in companies")
+				.item
+					table.itemTable.horiz-center
+						tr
+							td.shrink
+								.tableWrapper
+									img.itemImage(src="{{company.img}}")
+							td
+								h3.itemName.left {{company.name}}
+								p.itemDescription.left {{company.description}}
+							td
+								.tableWrapper
+									img.icon(src="img/edit.png")
+			a(href="/CompanyAdd")
 				img.icon(src="img/add.png")

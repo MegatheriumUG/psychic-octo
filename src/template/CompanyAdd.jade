@@ -1,4 +1,4 @@
-html
+html(ng-app="psychicOctophant")
 	head
 		title="Psychic Octophant - A Project Manager"
 		link(href="../css/stylesheet.css" rel="stylesheet")
@@ -6,14 +6,21 @@ html
 		.horiz-center.form
 			h2 Neues Unternehmen erstellen
 			form(method="post")
-				div
-					p Name
-					input(type="text" name="Name")
-				div
-					p Beschreibung
-					input(type="text" name="Description")
-				div
-					p Bild-URL
-					input(type="text" name="Image")
-				div
-					input(type="submit" name="Submit")
+				table
+					tr
+						td
+							p.right Name
+						td
+							input.textInput(type="text" name="Name")
+					tr
+						td
+							p.right Beschreibung
+						td
+							input.textInput(type="text" name="Description")
+					tr
+						td
+							p.right Bild-URL
+						td
+							input.textInput(type="text" name="Image")
+				
+				input(type="submit" name="Submit")
