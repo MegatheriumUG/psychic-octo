@@ -1,0 +1,44 @@
+Die Controller antworten grundsätzlich im JSON-Format.
+Parameter werden üblicherweise über die URL angegeben, z.B.: /ProjectList?companyId=some-company-id
+
+"Ohne Populationen" bedeutet, dass beim entsprechenden Model keine Verknüpfungen zu anderen Models aufgelöst wurden. Bei "model.Company" bedeutete dies, dass "company.image" lediglich die ID der File beinhaltet, nicht aber ein Objekt, welches unter _id die ID der File beinhaltet (d.h. {company: {name: 'Dressiety', description: 'desc', image: '31237891273987129371'}} anstelle von {company: {name: ..., descr..., image: {_id: '31237891273987129371'}}}). Siehe auch das Datenbankmodel unter ./model/Company.js und ./model/File.js
+
+Parameter beziehen sich, ohne weitere Angabe, auf die Felder des Models
+Antworten beziehen sich, ohne weitere Angabe, auf den data-Part der Antwort: {status: 'success|error', data: {response data}, template: 'some template name for the gui'}
+
+GET /CompanyList
+	Sucht alle Unternehmen in der Datenbank und gibt diese im JSON-Format zurück.
+	companies: beinhaltet ein Model.Company-Array ohne Populationen
+
+	Beispiel:
+		/CompanyList
+		=> {companies: [{name: "Dressiety", description: "Some desc..."}]}
+
+POST /CompanyAdd
+	Erstellt ein neues Unternehmen.
+	Model: ./model/Company.js
+
+	Parameter:
+		name
+		description
+
+POST /ProjectAdd
+	Erstellt ein Projekt.
+	Model: ./model/Project.js
+
+	Parameter:
+		name
+		companies	entweder eine einzelne company._id oder mehrere, die alle unter dem Namen "companies" versendet werden; z.B. mehrere <input type="checkbox" name="companies" value="company._id" /> mit unterschiedlichen Company-IDs
+
+	Antwort:
+		{projectId: 'Die ID des gerade erstellten Projektes'}
+
+GET /ProjectList
+	Listet alle Projekte auf, oder alle Projekte, die einem bestimmten Unternehmen zugeordnet wurden.
+	Model: ./model/Project.js
+
+	Parameter:
+		companyId 	(optional)	wenn übergeben, wird nur nach Projekten von diesem Unternehmen gesucht, ansonsten werden alle Projekte aufgelistet
+
+	Antwort:
+		{projects: [alle gefunden projekte]}
