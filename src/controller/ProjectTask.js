@@ -34,4 +34,39 @@ exports.setup = function(app) {
 			res.send({data: {taskId: task._id}});
 		});
 	});
+
+	app.get('/ProjectTaskDelete', function(req, res, jump) {
+		ProjectTask.findById(req.param('taskId'))
+			.exec(function(err, task) {
+				if (err) return jump(err);
+				if (!task) return res.send({status: 'error', errors: ['Task nicht gefunden']});
+
+				task.remove(function(err) {
+					if (err) return jump(err);
+
+					res.send({status: 'success'});
+				});
+			});
+	});
+
+	app.post('/ProjectTaskEdit', function(req, res, jump) {
+		ProjectTask.findById(req.param('taskId'))
+			.exec(function(err, task) {
+				if (err) return jump(err);
+				if (!task) return res.send({status: 'success', errors: ['Task nicht gefunden']});
+
+				task.project = req.param('project');
+				task.title = req.param('title');
+				task.description = req.param('description');
+				task.status = req.param('status');
+				if (!task.project) return res.send({status: 'error', errors: ['Zu welchem Projekt soll denn der Task gehören?']});
+				if (!task.title) return res.send({status: 'error', errors: ['Eine Aufgabe ohne Aufgabe macht wenig Sinn... oder?']});
+
+				task.save(function(err) {
+					if (err) return jump(err);
+
+					res.send({status: 'success'});
+				});
+			});
+	});
 };

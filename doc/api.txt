@@ -6,6 +6,8 @@ Parameter werden üblicherweise über die URL angegeben, z.B.: /ProjectList?comp
 Parameter beziehen sich, ohne weitere Angabe, auf die Felder des Models
 Antworten beziehen sich, ohne weitere Angabe, auf den data-Part der Antwort: {status: 'success|error', data: {response data}, template: 'some template name for the gui'}
 
+Delete- und Edit-Controller antworten üblicherweise nur mit einem Status ({status: 'success'} oder {status: 'error'}) und ggf. Fehlermeldungen.
+
 GET /CompanyList
 	Sucht alle Unternehmen in der Datenbank und gibt diese im JSON-Format zurück.
 	companies: beinhaltet ein Model.Company-Array ohne Populationen
@@ -33,6 +35,20 @@ POST /ProjectAdd
 	Antwort:
 		{projectId: 'Die ID des gerade erstellten Projektes'}
 
+GET /ProjectDelete
+	Löscht ein Projekt.
+
+	Parameter:
+		projectId	muss angegeben werden
+
+POST /ProjectEdit
+	Aktualisiert ein Projekt.
+
+	Parameter:
+		projectId	die ID des Projektes
+		name
+		companies	entweder eine einzelne company._id oder mehrere, die alle unter dem Namen "companies" versendet werden; z.B. mehrere <input type="checkbox" name="companies" value="company._id" /> mit unterschiedlichen Company-IDs
+
 GET /ProjectList
 	Listet alle Projekte auf, oder alle Projekte, die einem bestimmten Unternehmen zugeordnet wurden.
 	Model: ./model/Project.js
@@ -42,42 +58,6 @@ GET /ProjectList
 
 	Antwort:
 		{projects: [alle gefunden projekte]}
-
-POST /ProjectTaskStatusAdd
-	Fügt einen neuen projekttask-Status hinzu.
-
-	Parameter:
-		name 	Name des Stauts ("Fertig", "In Arbeit", "In Revision", "Testing", ...)
-		finished	wenn übergeben und nicht leer, wird ein Task mit diesem Status als "abgeschlossen" markiert
-		company	ID des Unternehmens
-		project	ID des Projektes
-
-	Antwort:
-		{statusId: 'ID des erstellten Status'}
-
-GET /ProjectTaskStatusList
-	Listet alle Projekt-Task-Stati auf. Ein Status ist z.B. "Fertig", "In Arbeit", "In Revision", "Rückmeldung erwartet"
-	Model: ./model/ProjectTaskStatus.js
-
-	Parameter:
-		companyId 	(optional) wenn übergeben, filtert nach dem Unternehmen
-		projectId 	(optional) wenn übergeben, filtert nach dem Projekt
-
-	Antwort:
-		{status: [alle gefundenen Stati]}
-
-
-GET /ProjectTaskList
-	Liefert alle ProjectTasks, optional filterbar.
-	Model: ./model/ProjectTask.js
-
-	Parameter:
-		title	(optional) nur Tasks, die diesen title (case-insensitiv) beinhalten, werden angezeigt
-		projectId	(optional) nur Tasks aus diesem Projekt werden angezeigt
-		time	(optional) nur Tasks nach oder zu diesem Zeitstempel (in ms) werden angezeigt
-
-	Antwort:
-		{tasks: [alle gefundenen tasks]}
 
 POST /ProjectTaskAdd
 	Erstellt einen neuen ProjectTask.
@@ -91,3 +71,72 @@ POST /ProjectTaskAdd
 
 	Antwort:
 		{taskId: 'id des erstellten Task'}
+
+GET /ProjectTaskDelete
+	Löscht den entsprechenden ProjectTask.
+
+	Parameter:
+		taskId	die ID des Tasks
+
+POST /ProjectTaskEdit
+	Bearbeitet die Projektaufgabe.
+
+	Parameter:
+		taskId	die ID der Aufgabe
+		project
+		title
+		description
+		status
+
+GET /ProjectTaskList
+	Liefert alle ProjectTasks, optional filterbar.
+	Model: ./model/ProjectTask.js
+
+	Parameter:
+		title	(optional) nur Tasks, die diesen title (case-insensitiv) beinhalten, werden angezeigt
+		projectId	(optional) nur Tasks aus diesem Projekt werden angezeigt
+		time	(optional) nur Tasks nach oder zu diesem Zeitstempel (in ms) werden angezeigt
+
+	Antwort:
+		{tasks: [alle gefundenen tasks]}
+
+POST /ProjectTaskStatusAdd
+	Fügt einen neuen projekttask-Status hinzu.
+
+	Parameter:
+		name 	Name des Stauts ("Fertig", "In Arbeit", "In Revision", "Testing", ...)
+		finished	wenn übergeben und nicht leer, wird ein Task mit diesem Status als "abgeschlossen" markiert
+		company	ID des Unternehmens
+		project	ID des Projektes
+
+	Antwort:
+		{statusId: 'ID des erstellten Status'}
+
+GET /ProjectTaskStatusDelete
+	Löscht einen Status. Alle Tasks, die in diesem Status existieren, werden stattdessen in einen, ebenfalls übergebenen, Status verschoben.
+	Der übergebene Status darf keine strengeren Filterkriterien aufweisen, als der vorherige Status, da ansonsten nicht alle Tasks den neuen Status erhalten dürfen. Dies wird serverseitig abgefangen.
+
+	Parameter:
+		statusId	die ID des zu löschenden Status
+		newStatusId	die ID des neuen Status, zu dem die Tasks verschoben werden, die den zu löschenden Status besaßen
+
+POST /ProjectTaskStatusEdit
+	Bearbeitet einen bestehenden Status.
+
+	Parameter:
+		statusId	die ID des zu bearbeitenden Status
+		name 	Name des Stauts ("Fertig", "In Arbeit", "In Revision", "Testing", ...)
+		finished	wenn übergeben und nicht leer, wird ein Task mit diesem Status als "abgeschlossen" markiert
+		company	ID des Unternehmens
+		project	ID des Projektes
+
+GET /ProjectTaskStatusList
+	Listet alle Projekt-Task-Stati auf. Ein Status ist z.B. "Fertig", "In Arbeit", "In Revision", "Rückmeldung erwartet"
+	Model: ./model/ProjectTaskStatus.js
+
+	Parameter:
+		companyId 	(optional) wenn übergeben, filtert nach dem Unternehmen
+		projectId 	(optional) wenn übergeben, filtert nach dem Projekt
+
+	Antwort:
+		{status: [alle gefundenen Stati]}
