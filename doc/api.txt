@@ -8,6 +8,29 @@ Antworten beziehen sich, ohne weitere Angabe, auf den data-Part der Antwort: {st
 
 Delete- und Edit-Controller antworten üblicherweise nur mit einem Status ({status: 'success'} oder {status: 'error'}) und ggf. Fehlermeldungen.
 
+POST /UserAdd
+	Erstellt ein neues Benutzerkonto.
+
+	Parameter
+		username
+		email
+		password
+		name.first
+		name.last
+
+	Antwort
+		{userId: 'die id des erstellten Benutzerkontos'}
+
+POST /UserLogin
+	Ermöglicht es, einen User anzumelden.
+
+	Parameter
+		username	der Benutzername des Nutzers
+		password	das Passwort des Nutzers
+
+	Antwort
+		{sessionId: 'die neue session-id. sie sollte an jede Anfrage angehängt werden/als parameter mitgeschickt werden'}
+
 GET /CompanyList
 	Sucht alle Unternehmen in der Datenbank und gibt diese im JSON-Format zurück.
 	companies: beinhaltet ein Model.Company-Array ohne Populationen
@@ -23,6 +46,71 @@ POST /CompanyAdd
 	Parameter:
 		name
 		description
+
+POST /DiscussionPostAdd
+	Erstellt einen neuen Post.
+
+	Parameter
+		content
+		thread
+		parentPostId	(optional) id des übergeordneten Posts, falls vorhanden; equivalent zu Post.post
+
+	Antwort
+		{postId: 'die id des neu erstellten Posts'}
+
+GET /DiscussionPostDelete
+	Löscht (versteckt) einen Post.
+
+	Parameter
+		postId
+
+POST /DiscussionPostEdit
+	Aktualisiert einen Post.
+
+	Parameter
+		postId	die ID des zu bearbeitenden Posts
+		content
+
+GET /DiscussionPostList
+	Listet alle (sichtbaren) Posts eines Threads auf.
+
+	Parameter
+		threadId	die ID des übergeordneten Threads
+
+	Antwort
+		{posts: [ein array mit allen Post-Objekten, unpopulated]}
+
+POST /DiscussionThreadAdd
+	Erstellt einen neuen Thread.
+
+	Parameter
+		title
+		board
+
+	Antwort:
+		{threadId: 'die id des neu erstellten Threads'}
+
+GET /DiscussionThreadDelete
+	Löscht (versteckt) einen Thread.
+
+	Parameter
+		threadId
+
+POST /DiscussionThreadEdit
+	Aktualisiert einen Thread.
+
+	Parameter
+		threadId
+		title
+
+GET /DiscussionThreadList
+	Listet alle (sichtbaren) Threads eines Forums auf.
+
+	Parameter
+		boardId	beinhaltet das Forum, dessen Threads aufgelistet werden sollen
+
+	Antwort
+		{threads: [array von threads, unpopulated]}
 
 POST /ProjectAdd
 	Erstellt ein Projekt.

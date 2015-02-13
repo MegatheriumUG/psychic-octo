@@ -3,7 +3,8 @@ var bodyParser = require('body-parser'),
 	db = require('mongoose'),
 	express = require('express'),
 	fs = require('fs'),
-	jade = require('jade');
+	jade = require('jade'),
+	Session = require('./model/Session.js');
 var app = express();
 
 // verbinde mit Datenbank
@@ -31,9 +32,27 @@ app.use(function(req, res, next) {
 	next();
 });
 
+app.all('*', function(req, res, callback) {
+	if (!req.param('sessionId')) return callback();
+
+	Session.findOne({_id: req.param('sessionId')})
+		.exec(function(err, session) {
+			if (err) return callback(err);
+
+			res.locals.session = session;
+			callback();
+		});
+});
+
 // Import der Controller
 [
-	'Company'
+	'Company',
+	'DiscussionPost',
+	'DiscussionThread',
+	'Project',
+	'ProjectTask',
+	'ProjectTaskStatus',
+	'User'
 ].map(function(controllerName) {
 	require('./controller/'+controllerName+'.js').setup(app);
 });

@@ -7,7 +7,8 @@ var DiscussionPost = new db.Schema({
 	user: {type: ObjectId, ref: 'User', required: true},
 	time: {type: Date, default: Date.now, required: true},
 	content: {type: String, required: true},
-	attachments: [{type: ObjectId, ref: 'File'}]
+	attachments: [{type: ObjectId, ref: 'File'}],
+	hidden: {type: Boolean, default: false}
 });
 
 module.exports = db.model('DiscussionPost', DiscussionPost);
