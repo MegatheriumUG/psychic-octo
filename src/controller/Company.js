@@ -1,5 +1,5 @@
 var async = require('async'),
-	config = require('../config.js'),
+	config = require('../config/config.js'),
 	db = require('mongoose'),
 	fs = require('fs'),
 	Company = require('../model/Company.js'),

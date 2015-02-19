@@ -1,3 +1,4 @@
 data/image/*
+data/repositories/*
 node_modules
 template/html

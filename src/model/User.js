@@ -1,5 +1,5 @@
 var bcrypt = require('bcrypt'),
-	config = require('../config.js'),
+	config = require('../config/config.js'),
 	db = require('mongoose');
 var ObjectId = db.Schema.Types.ObjectId;
 

@@ -4,5 +4,6 @@ module.exports = {
 		port: '27017',
 		db: 'psychic-octo'
 	},
+	GIT_REPOSITORY_DIRECTORY: './data/repositories/',
 	PICTURE_DIRECTORY: './data/image/'
 };

@@ -49,6 +49,7 @@ app.all('*', function(req, res, callback) {
 	'Company',
 	'DiscussionPost',
 	'DiscussionThread',
+	'Git',
 	'Project',
 	'ProjectTask',
 	'ProjectTaskStatus',
