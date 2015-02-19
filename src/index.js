@@ -1,5 +1,5 @@
 var bodyParser = require('body-parser'),
-	config = require('./config.js'),
+	config = require('./config/config.js'),
 	db = require('mongoose'),
 	express = require('express'),
 	fs = require('fs'),
