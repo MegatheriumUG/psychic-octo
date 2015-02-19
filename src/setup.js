@@ -26,6 +26,62 @@ var servers = [
 	{ip: '46.38.252.137', owner: companies.megatherium, resources: {hdd: 40}, domains: ['v2201112107886801.yourvserver.net']}
 ];
 
+var domains = [
+	['botanically.de', companies.megatherium],
+	['dressado.com', companies.abys],
+	['dressado.de', companies.abys],
+	['dressciety.at', companies.abys],
+	['dressciety.ch', companies.abys],
+	['dressciety.com', companies.abys],
+	['dressciety.de', companies.abys],
+	['dressciety.eu', companies.abys],
+	['dressciety.net', companies.abys],
+	['dressiety.at', companies.abys],
+	['dressiety.ch', companies.abys],
+	['dressiety.com', companies.abys],
+	['dressiety.de', companies.abys],
+	['dressiety.eu', companies.abys],
+	['dressiety.net', companies.abys],
+	['dressity.at', companies.abys],
+	['dressity.ch', companies.abys],
+	['dressity.de', companies.abys],
+	['dressity.eu', companies.abys],
+	['dressity.net', companies.abys],
+	['megatherium.solutions', companies.megatherium],
+	['megatherium.to', companies.megatherium],
+	['node-cloud.at', companies.megatherium],
+	['node-cloud.ch', companies.megatherium],
+	['node-cloud.de', companies.megatherium],
+	['node-cloud.eu', companies.megatherium],
+	['node-cloud.net', companies.megatherium],
+	['nodecloud.at', companies.megatherium],
+	['nodecloud.ch', companies.megatherium],
+	['nodecloud.eu', companies.megatherium],
+	['nodejs.codes', companies.megatherium],
+	['nodejs.market', companies.megatherium],
+	['nodejs.software', companies.megatherium],
+	['nodejs-cloud.at', companies.megatherium],
+	['nodejs-cloud.ch', companies.megatherium],
+	['nodejs-cloud.de', companies.megatherium],
+	['nodejs-cloud.eu', companies.megatherium],
+	['nodejs-cloud.net', companies.megatherium],
+	['nodejs-host.at', companies.megatherium],
+	['nodejs-host.ch', companies.megatherium],
+	['nodejs-host.com', companies.megatherium],
+	['nodejs-host.eu', companies.megatherium],
+	['nodejs-host.net', companies.megatherium],
+	['nodejs-hosting.at', companies.megatherium],
+	['nodejs-hosting.ch', companies.megatherium],
+	['nodejscloud.at', companies.megatherium],
+	['nodejscloud.ch', companies.megatherium],
+	['nodejscloud.de', companies.megatherium],
+	['nodejscloud.eu', companies.megatherium],
+	['nodejscloud.net', companies.megatherium],
+	['npmjs.at', companies.megatherium],
+	['npmjs.ch', companies.megatherium],
+	['npmjs.de', companies.megatherium],
+];
+
 async.parallel([
 	// create companies
 	function(next) {
@@ -39,6 +95,17 @@ async.parallel([
 		async.each(servers, function(server, next2) {
 			var obj = new Server(server);
 			server._id = obj._id;
+			obj.save(next2);
+		}, next);
+	},
+
+	// create domains
+	function(next) {
+		async.each(domains, function(domain, next2) {
+			var obj = new Domain({
+				domain: domain[0],
+				company: domain[1]
+			});
 			obj.save(next2);
 		}, next);
 	}

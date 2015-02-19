@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"async": "*",
+		"bcrypt": "*",
 		"body-parser": "*",
 		"express": "4.2.x",
 		"jade": "*",
