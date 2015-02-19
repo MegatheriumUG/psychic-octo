@@ -1,6 +1,7 @@
 var async = require('async'),
 	db = require('mongoose'),
 	Company = require('./model/Company.js'),
+	Domain = require('./model/Domain.js'),
 	Server = require('./model/Server.js');
 
 var companies = {
