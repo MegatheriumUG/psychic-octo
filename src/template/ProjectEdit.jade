@@ -1,0 +1,20 @@
+include ./header.jade
+
+h1 Projekt "#{data.project.name}" bearbeiten
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Das Projekt wurde erfolgreich aktualisiert.
+
+form(method="post" action="/ProjectEdit?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required" value="#{data.project.name}")
+	div.field
+		label Beteiligte Unternehmen
+		select(name="companies" multiple="multiple" required="required")
+			each company in data.companies
+				option(value="#{company._id}" selected=data.project.companies.indexOf(company._id) >= 0) #{company.name}
+	input(type="hidden" name="projectId" value="#{data.project._id}")
+	input(type="submit" value="Aktualisieren")

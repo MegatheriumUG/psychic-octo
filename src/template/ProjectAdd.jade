@@ -1,19 +1,19 @@
-html(ng-app="psychicOctophant")
-	head
-		title="Psychic Octophant - A Project Manager"
-		link(href="../css/stylesheet.css" rel="stylesheet")
-	body
-		.horiz-center.form
-			h2 Neues Projekt erstellen
-			form(method="post")
-				div
-					p Name
-					input(type="text" name="Name")
-				div
-					p Beschreibung
-					input(type="text" name="Description")
-				div
-					p Bild-URL
-					input(type="text" name="Image")
-				div
-					input(type="submit" name="Submit")
+include ./header.jade
+
+h1 Neues Projekt erstellen
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Das Projekt #{data.project.name} wurde erfolgreich erstellt.
+
+form(method="post" action="/ProjectAdd?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required")
+	div.field
+		label Beteiligte Unternehmen
+		select(name="companies" multiple="multiple" required="required")
+			each company in data.companies
+				option(value="#{company._id}") #{company.name}
+	input(type="submit" value="Erstellen")

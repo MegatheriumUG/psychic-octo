@@ -1,36 +1,27 @@
-html(ng-app="psychicOctophant")
-	head
-		title="Psychic Octophant - A Project Manager"
-		link(href="css/stylesheet.css" rel="stylesheet")
-		script(type="text/javascript").
-			var numbers = $scope.project.numbers
-			var factor = 100.0 / (numbers[0] + numbers[1] + numbers[2])
-			$scope.greenWidth = numbers[0] * factor
-			$scope.blueWidth = numbers[1] * factor
-			$scope.redWidth = numbers[2] * factor
-	body
-		section.itemList
-			.item(ng-repeat="project in projects")
-				table.itemTable
-					tr
-						td.shrink
-							.tableWrapper
-								img.itemImage(src="{{project.img}}")
-						td.top.left
-							h3.itemName {{project.name}}
-							p.itemDescription {{project.description}}
-						td.top.right
-							.itemNumbers
-								.green {{project.numbers[0]}}
-								.separator |
-								.blue {{project.numbers[1]}}
-								.separator |
-								.red {{project.numbers[2]}}
-					tr
-						td(colspan="3")
-							.progressBar
-								.green(style="width: " + greenWidth + "%")
-								.blue( style="width: " + blueWidth + "%")
-								.red(  style="width: " + redWidth + "%")
-			a(href="ProjectAdd.html")
-				img.icon(src="img/add.png")
+include ./header.jade
+
+h1 Alle Projekte (#{data.projects.length})
+
+div.button
+	a(href="/ProjectAdd?sessionId=#{sessionId}") Projekt erstellen
+
+if status == 'success.delete'
+	p.success Das Projekt wurde erfolgreich gelöscht.
+
+table
+	thead
+		tr
+			th Name
+			th Unternehmen
+			th(colspan="2") Aktionen
+	tbody
+		each project in data.projects
+			tr
+				td #{project.name}
+				td
+					each company in project.companies
+						p(style="margin-top: 0; margin-bottom: 0") #{company.name}
+				td
+					a(href="/ProjectEdit?sessionId=#{sessionId}&projectId=#{project._id}") Bearbeiten
+				td
+					a(href="/ProjectDelete?sessionId=#{sessionId}&projectId=#{project._id}") Löschen
