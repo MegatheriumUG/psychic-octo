@@ -1,0 +1,26 @@
+include ./header.jade
+
+h1 Berechtigungen für #{data.usergroup.name} (#{data.permissions.length})
+
+if status == 'add.success'
+	p.success Die Berechtigung wurde erfolgreich gewährt!
+else if status == 'delete.success'
+	p.success Die Berechtigung wurde erfolgreich entzogen!
+
+form(method="POST" action="/PermissionAdd?sessionId=#{sessionId}")
+	input(type="text" name="name" placeholder="Berechtigung" required="required")
+	input(type="hidden" name="usergroupId" value="#{data.usergroup._id}")
+	input(type="submit" value="gewähren")
+
+table
+	thead
+		tr
+			th Name
+			th Aktionen
+	tbody
+		each permission in data.permissions
+			tr
+				td #{permission.name}
+				td
+					a(href="/PermissionDelete?sessionId=#{sessionId}&permissionId=#{permission._id}") Entziehen
+

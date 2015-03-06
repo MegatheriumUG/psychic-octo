@@ -1,10 +1,12 @@
 var bcrypt = require('bcrypt'),
 	config = require('../config/config.js'),
-	db = require('mongoose');
+	db = require('mongoose'),
+	Permission = require('../model/Permission.js');
 var ObjectId = db.Schema.Types.ObjectId;
 
 var User = new db.Schema({
 	username: {type: String, unique: true, required: true},
+	usergroups: [{type: ObjectId, ref: 'Usergroup'}],
 	email: {type: String, unique: true, required: true},
 	password: {type: String, required: true},
 	name: {first: {type: String}, last: {type: String}},
@@ -39,5 +41,14 @@ User.methods.comparePassword = function(candidatePassword, callback) {
 		callback(null, isMatch);
 	});
 };
+
+// add hasPermission method
+User.methods.hasPermission = function(name, callback) {
+	Permission.findOne({value: true, usergroup: {$in: this.usergroups}, name: name}, function(err, permission) {
+		if (err) return callback(err);
+		if (!permission) return callback(false, false);
+		callback(false, true);
+	});
+}
 
 module.exports = db.model('User', User);

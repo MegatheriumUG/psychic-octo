@@ -1,0 +1,37 @@
+include ./header.jade
+
+h1 Trade erstellen
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Der Trade wurde erfolgreich angelegt.
+
+form(method="POST" action="/FondsTradeAdd?sessionId=#{sessionId}")
+	div.field
+		label Kauf-Plattform
+		select(name="platformOpen")
+			each platform in data.platforms
+				option(value="#{platform._id}") #{platform.name}
+	div.field
+		label Verkauf-Plattform
+		select(name="platformClose")
+			each platform in data.platforms
+				option(value="#{platform._id}") #{platform.name}
+	div.field
+		label Menge
+		input(type="number" name="volume" step="0.01")
+	div.field
+		label Einkaufskurs
+		input(type="number" name="positionOpen" step="0.01")
+	div.field
+		label Gesch. Verkaufskurs
+		input(type="number" name="positionExpected" step="0.01")
+	div.field
+		label Tatsächlicher Verkaufskurs
+		input(type="number" name="positionClose" step="0.01")
+	div.field
+		label Gewinn (EUR)
+		input(type="number" name="earnings" step="0.01")
+	input(type="hidden" name="fonds" value="#{data.fonds._id}")
+	input(type="submit" value="Erstellen")

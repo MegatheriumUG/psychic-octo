@@ -1,0 +1,31 @@
+include ./header.jade
+
+h1 Alle Fonds (#{data.fonds.length})
+
+div.button
+	a(href="/FondsAdd?sessionId=#{sessionId}") Neuer Fonds
+
+if status == 'success.delete'
+	p.success Der Fonds wurde erfolgreich entfernt.
+
+table
+	thead
+		tr
+			th Name
+			th Plattformen
+			th Kunden
+			th(colspan="2") Aktionen
+	tbody
+		each fonds in data.fonds
+			tr
+				td #{fonds.name}
+				td
+					each platform in fonds.platforms
+						p(style="margin-top: 0; margin-bottom: 0") #{platform.name}
+				td #{fonds.customers.length}
+				td
+					a(href="/FondsView?sessionId=#{sessionId}&fondsId=#{fonds._id}") Ansehen
+				td
+					a(href="/FondsEdit?sessionId=#{sessionId}&fondsId=#{fonds._id}") Bearbeiten
+				td
+					a(href="/FondsDelete?sessionId=#{sessionId}&fondsId=#{fonds._id}") Löschen

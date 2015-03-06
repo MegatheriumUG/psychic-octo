@@ -5,5 +5,6 @@ module.exports = {
 		db: 'psychic-octo'
 	},
 	GIT_REPOSITORY_DIRECTORY: './data/repositories/',
+	PASSWORD_SALT_WORK_FACTOR: 10,
 	PICTURE_DIRECTORY: './data/image/'
 };

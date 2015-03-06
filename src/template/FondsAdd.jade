@@ -1,0 +1,22 @@
+include ./header.jade
+
+h1 Fonds erstellen
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Der Fonds wurde erfolgreich erstellt!
+
+form(method="POST" action="/FondsAdd?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required")
+	div.field
+		label Beschreibung
+		textarea(name="description")
+	div.field
+		label Plattformen
+		select(multiple="multiple" name="platforms")
+			each platform in data.platforms
+				option(value="#{platform._id}") #{platform.name}
+	input(type="submit" value="Erstellen")

@@ -1,0 +1,15 @@
+include ./header.jade
+
+h1 Trading-Plattform "#{data.platform.name}" bearbeiten
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Die Trading-Plattform wurde erfolgreich aktualisiert.
+
+form(method="POST" action="/FondsPlatformEdit?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" value="#{data.platform.name}" required="required")
+	input(type="hidden" name="platformId" value="#{data.platform._id}")
+	input(type="submit" value="Aktualisieren")

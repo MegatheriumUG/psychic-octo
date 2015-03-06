@@ -1,0 +1,23 @@
+include ./header.jade
+
+h1 Fonds "#{data.fonds.name}" bearbeiten
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Der Fonds wurde erfolgreich aktualisiert.
+
+form(method="POST" action="/FondsEdit?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required" value="#{data.fonds.name}")
+	div.field
+		label Beschreibung
+		textarea(name="description") #{data.fonds.description}
+	div.field
+		label Plattformen
+		select(multiple="multiple" name="platforms")
+			each platform in data.platforms
+				option(value="#{platform._id}" selected=data.fonds.platforms.indexOf(platform._id) >= 0) #{platform.name}
+	input(type="hidden" name="fondsId" value="#{data.fonds._id}")
+	input(type="submit" value="Aktualisieren")

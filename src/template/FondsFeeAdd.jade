@@ -1,0 +1,21 @@
+include ./header.jade
+
+h1 Gebühr anlegen
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Eine neue Gebühr in Höhe von #{data.fee.amount} € wurde angelegt.
+
+form(method="POST" action="/FondsFeeAdd?sessionId=#{sessionId}")
+	div.field
+		label Bezeichnung
+		input(type="text" name="title" required="required")
+	div.field
+		label Beschreibung
+		textarea(name="description")
+	div.field
+		label Höhe
+		input.money(type="number" name="amount" step="0.01" required="required" min="0")
+	input(type="hidden" name="fonds" value="#{data.fonds._id}")
+	input(type="submit" value="Anlegen")

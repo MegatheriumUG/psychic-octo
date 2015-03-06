@@ -1,0 +1,89 @@
+include ./header.jade
+
+h1 Fonds ##{data.fonds.name.replace(/\s/g, '-').toLowerCase()}
+
+if data.balance < 0
+	p.
+		Wert: #{parseInt(data.deposit*100)/100} € <br>
+		Bilanz: <span style="color: red">- #{-data.balance} €</span> <br>
+		Relation: <span style="color: red">- #{-parseInt(data.balance/data.deposit*10000)/100} %</span>
+else
+	p.
+		Wert: #{parseInt(data.deposit*100)/100} € <br>
+		Bilanz: <span style="color: green">#{data.balance} €</span> <br>
+		Relation: <span style="color: green">#{parseInt(data.balance/data.deposit*10000)/100} %</span>
+
+p #{data.fonds.description}
+
+h2 Trades (#{data.trades.length})
+
+div.button
+	a(href="/FondsTradeAdd?sessionId=#{sessionId}&fondsId=#{data.fonds._id}") Neuer Trade
+
+table
+	thead
+		tr
+			th Datum
+			th Umfang
+			th Kaufkurs
+			th Verkaufkurs
+			th Bilanz
+	tbody
+		each trade in data.trades
+			tr
+				td #{trade.time.open.getDate()}.#{trade.time.open.getMonth()+1}.#{trade.time.open.getFullYear()}
+				td #{trade.volume} BTC
+				td #{trade.position.open*trade.volume}
+				td #{trade.position.close*trade.volume}
+				if trade.earnings < 0
+					td(style="color: red") - #{-trade.earnings}
+				else
+					td(style="color: green") + #{trade.earnings}
+
+
+h2 Kunden (#{data.fonds.customers.length})
+
+div.button
+	a(href="/FondsCustomerAdd?sessionId=#{sessionId}&fondsId=#{data.fonds._id}") Neuer Kunde
+
+table
+	thead
+		tr
+			th Name
+			th Deposit
+			th Rücklagen
+			th Bilanz
+	tbody
+		each customer in data.fonds.customers
+			tr
+				td #{customer.name}
+				td #{customer.deposit.initial}
+				td #{customer.reserve}
+				td
+					if data.balance < 0
+						span(style="color: 'red'") - #{-parseInt(customer.fondsShare*data.balance*100)/100} €
+					else
+						span(style="color: 'green'") + #{parseInt(customer.fondsShare*data.balance*100)/100} €
+
+h2 Bezahlte Gebühren (#{data.fees.length})
+
+div.button
+	a(href="/FondsFeeAdd?sessionId=#{sessionId}&fondsId=#{data.fonds._id}") Neue Gebühr melden
+
+table
+	thead
+		tr
+			th Datum
+			th Name
+			th Menge
+			th(colspan="2") Aktionen
+	tbody
+		each fee in data.fees
+			tr
+				td #{fee.date.getDate()}.#{fee.date.getMonth()+1}.#{fee.date.getFullYear()}
+				td #{fee.title}
+				td #{parseInt(fee.amount*100)/100} €
+				td
+					a(href="/FondsFeeEdit?sessionId=#{sessionId}&feeId=#{fee._id}") Bearbeiten
+				td
+					a(href="/FondsFeeDelete?sessionId=#{sessionId}&feeId=#{fee._id}") Löschen

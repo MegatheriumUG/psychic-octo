@@ -1,0 +1,18 @@
+include ./header.jade
+
+h1 Anmelden
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Du wurdest erfolgreich angemeldet!
+
+if !userId
+	form(method="post" action="/UserLogin?sessionId=#{sessionId}")
+		div.field
+			label Benutzername
+			input(type="text" name="username" required="required")
+		div.field
+			label Passwort
+			input(type="password" name="password" required="required")
+		input(type="submit" value="Anmelden")

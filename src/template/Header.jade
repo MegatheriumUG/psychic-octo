@@ -3,3 +3,22 @@ html
 		title="Psychic Octophant - A Project Manager"
 		link(href="css/stylesheet.css" rel="stylesheet")
 	body
+		ul
+			li
+				a(href="/?sessionId=#{sessionId}") Startseite
+			if !userId
+				li
+					a(href="/UserLogin?sessionId=#{sessionId}") Anmelden
+				li
+					a(href="/UserAdd?sessionId=#{sessionId}") Registrieren
+			else
+				li
+					a(href="/UserLogout?sessionId=#{sessionId}") Abmelden
+			li
+				a(href="/UserList?sessionId=#{sessionId}") Benutzer
+			li
+				a(href="/UsergroupList?sessionId=#{sessionId}") Benutzergruppen
+			li
+				a(href="/FondsPlatformList?sessionId=#{sessionId}") Trading-Plattformen
+			li
+				a(href="/FondsList?sessionId=#{sessionId}") Fonds

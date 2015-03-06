@@ -19,13 +19,18 @@ app.use(function(req, res, next) {
 	var send = res.send.bind(res);
 	res.send = function(content) {
 		if (typeof content === 'string') return send(content);
+		if (!content.sessionId && res.locals.session) content.sessionId = res.locals.session._id;
+		if (!content.userId && res.locals.session && res.locals.session.user) content.userId = res.locals.session.user;
 		if (!content.template) return send(content);
 
 		fs.readFile('./template/'+content.template+'.jade', function(err, tpl) {
-			if (err) return send('bambambam... error, sry pplz');
+			if (err) {
+				console.log(err);
+				return send('bambambam... error, sry pplz');
+			}
 
 			var fn = jade.compile(tpl, {filename: './template/'+content.template+'.jade'});
-			var response = fn(content.data);
+			var response = fn(content);
 			send(response);
 		});
 	};
@@ -33,7 +38,12 @@ app.use(function(req, res, next) {
 });
 
 app.all('*', function(req, res, callback) {
-	if (!req.param('sessionId')) return callback();
+	if (!req.param('sessionId')) {
+		var session = new Session();
+		res.locals.session = session;
+		session.save(callback);
+		return;
+	}
 
 	Session.findOne({_id: req.param('sessionId')})
 		.exec(function(err, session) {
@@ -49,11 +59,18 @@ app.all('*', function(req, res, callback) {
 	'Company',
 	'DiscussionPost',
 	'DiscussionThread',
+	'Fonds',
+	'FondsCustomer',
+	'FondsFee',
+	'FondsPlatform',
+	'FondsTrade',
 	'Git',
+	'Permission',
 	'Project',
 	'ProjectTask',
 	'ProjectTaskStatus',
-	'User'
+	'User',
+	'Usergroup'
 ].map(function(controllerName) {
 	require('./controller/'+controllerName+'.js').setup(app);
 });

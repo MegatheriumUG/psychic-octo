@@ -1,0 +1,7 @@
+Die Fonds-API bietet die Möglichkeit, BTC-Fonds und Trades innerhalb dieser Fonds sowie eine Übersicht der Einlagen, Reserven und Gewinne zu erhalten.
+
+Eine kurze Erläuterung der Datenmodelle:
+Fonds - ein Fonds ("Investmentfonds") bündelt die Einlagen mehrerer Kunden (FondsCustomer) und verwertet diese mit einer bestimmten Trading-Strategie. Der Fonds insgesamt macht Gewinne oder Verluste, die wiederum an die FondsCustomer ausgezahlt werden.
+FondsCustomer - ein Kunde, der sowohl eine Rücklage (reserve) als auch eine Einlage (deposit) im entsprechenden Fonds besitzt. Die Rücklage bildet sich bspw. aus Gewinnen, welche noch nicht an den Kunden ausgezahlt worden sind, aber die auch nicht für weitere Trades verwendet werden soll. Die Einlage kann sich stattdessen erhöhen, bis hin zum maxDeposit. übersteigen Gewinne diesen Wert, so wird der überschüssige Gewinn in die Rücklage gelegt
+FondsTrade - ein einzelner Trade, der für einen Fonds ausgeführt wurde. Gespeichert werden u.a. der Kaufkurs (open-position), der erwartete Verkaufkurs (expected-position) und der tatsächliche Verkaufkurs (close-position) sowie der absolute, in EURO ausgedrückte Gewinn (earnings) und die Menge in BTC (volume).
+FondsPlatform - eine einzelne Trading-Plattform (z.B. "Kraken" oder "bitcoin.de"). Wird in erster Linie zu Verständnis- und Zuordnungszwecken genutzt

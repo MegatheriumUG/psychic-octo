@@ -1,0 +1,32 @@
+include ./header.jade
+
+if data.user.name.first || data.user.name.last
+	h1 #{data.user.name.first} #{data.user.name.last} bearbeiten
+else
+	h1 #{data.user.username} bearbeiten
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Benutzerkonto "#{data.user.username}" wurde erfolgreich aktualisiert.
+
+form(method="POST" action="/UserEdit?sessionId=#{sessionId}")
+	div.field
+		label Benutzername
+		input(type="text" name="username" value="#{data.user.username}" required="required")
+	div.field
+		label E-Mail Adresse
+		input(type="email" name="email" value="#{data.user.email}" required="required")
+	div.field
+		label Vorname
+		input(type="text" name="nameFirst" value="#{data.user.name.first}")
+	div.field
+		label Nachname
+		input(type="text" name="nameLast" value="#{data.user.name.last}")
+	div.field
+		label Benutzergruppen
+		select(name="usergroups" multiple="multiple")
+			each usergroup in data.usergroups
+				option(value="#{usergroup._id}" selected=data.user.usergroups.indexOf(usergroup._id.toString()) >= 0) #{usergroup.name}
+	input(type="hidden" name="userId" value="#{data.user._id}")
+	input(type="submit" value="Aktualisieren")

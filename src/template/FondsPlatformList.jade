@@ -1,0 +1,23 @@
+include ./header.jade
+
+h1 Trading-Plattformen (#{data.platforms.length})
+
+div.button
+	a(href="/FondsPlatformAdd?sessionId=#{sessionId}") Neue Plattform
+
+if status == 'success.delete'
+	p.success Die Plattform wurde erfolgreich gelöscht.
+
+table
+	thead
+		tr
+			th Name
+			th(colspan="2") Aktionen
+	tbody
+		each platform in data.platforms
+			tr
+				td #{platform.name}
+				td
+					a(href="/FondsPlatformEdit?sessionId=#{sessionId}&platformId=#{platform._id}") Bearbeiten
+				td
+					a(href="/FondsPlatformDelete?sessionId=#{sessionId}&platformId=#{platform._id}") Löschen

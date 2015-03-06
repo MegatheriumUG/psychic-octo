@@ -1,0 +1,14 @@
+include ./header.jade
+
+h1 Trading-Plattform hinzufügen
+
+if status == 'success'
+	p.success Die Trading-Plattform "#{data.platform.name}" wurde erfolgreich erstellt.
+
+include ./errors.jade
+
+form(method="POST" action="/FondsPlatformAdd?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required")
+	input(type="submit" value="Abschicken")

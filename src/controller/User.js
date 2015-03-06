@@ -1,8 +1,13 @@
 var async = require('async'),
 	Session = require('../model/Session.js'),
-	User = require('../model/User.js');
+	User = require('../model/User.js'),
+	Usergroup = require('../model/Usergroup.js');
 
 exports.setup = function(app) {
+	app.get('/UserLogin', function(req, res, jump) {
+		res.send({template: 'UserLogin'});
+	});
+
 	app.post('/UserLogin', function(req, res, jump) {
 		User.findOne({username: req.param('username')})
 			.exec(function(err, user) {
@@ -13,24 +18,26 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!isMatch) return res.send({status: 'error', errors: ['Login fehlgeschlagen.']});
 
-					var session = new Session({
-						user: user._id
-					});
-					session.save(function(err) {
+					res.locals.session.user = user._id;
+					res.locals.session.save(function(err) {
 						if (err) return jump(err);
 
-						res.send({data: {sessionId: session._id}});
+						res.send({status: 'success', template: 'UserLogin'});
 					});
 				});
 			});
 	});
 
+	app.get('/UserAdd', function(req, res, jump) {
+		res.send({template: 'UserAdd'});
+	});
+
 	app.post('/UserAdd', function(req, res, jump) {
 		var user = new User({
-			username: req.param('username'),
-			email: req.param('email'),
-			password: req.param('password'),
-			name: {first: req.param('name.first'), last: req.param('name.last')}
+			username: req.body.username,
+			email: req.body.email,
+			password: req.body.password,
+			name: {first: req.body.nameFirst, last: req.body.nameLast}
 		});
 
 		if (!user.username) return res.send({status: 'error', errors: ['Benutzer ohne Benutzernamen machen wohl wenig Sinn.']});
@@ -39,7 +46,86 @@ exports.setup = function(app) {
 		user.save(function(err) {
 			if (err) return jump(err);
 
-			res.send({status: 'success', data: {user: user._id}});
+			res.locals.session.user = user._id;
+			res.locals.session.save(function(err) {
+				if (err) return jump(err);
+
+				res.send({status: 'success', template: 'UserAdd', data: {user: user._id}});
+			});
+		});
+	});
+
+	app.get('/UserList', function(req, res, jump) {
+		User.find({})
+			.sort('username')
+			.exec(function(err, users) {
+				if (err) return jump(err);
+
+				res.send({template: 'UserList', data: {users: users}});
+			});
+	});
+
+	app.get('/UserEdit', function(req, res, jump) {
+		var user = null,
+			usergroups = [];
+		async.parallel([
+			function(next) {
+				User.findById(req.query.userId)
+					.exec(function(err, item) {
+						if (err) return next(err);
+						user = item;
+						next();
+					});
+			},
+
+			function(next) {
+				Usergroup.find({})
+					.sort('name')
+					.exec(function(err, items) {
+						if (err) return next(err);
+						usergroups = items;
+						next();
+					});
+			}
+		], function(err) {
+			if (err) return jump(err);
+			if (!user) return res.send({status: 'error', template: 'Error', errors: ['Der angeforderte Nutzer konnte nicht gefunden werden.']});
+
+			res.send({template: 'UserEdit', data: {user: user, usergroups: usergroups}});
+		});
+	});
+
+	app.post('/UserEdit', function(req, res, jump) {
+		async.parallel([
+			function(next) {
+				User.findById(req.body.userId)
+					.exec(function(err, item) {
+						if (err) return next(err);
+						if (!item) return res.send({status: 'error', template: 'Error', errors: ['Der angeforderte Nutzer konnte nicht gefunden werden.']});
+						user = item;
+
+						user.username = req.body.username;
+						user.name.first = req.body.nameFirst;
+						user.name.last = req.body.nameLast;
+						user.email = req.body.email;
+						user.usergroups = req.body.usergroups;
+						user.save(next);
+					});
+			},
+
+			function(next) {
+				Usergroup.find({})
+					.sort('name')
+					.exec(function(err, items) {
+						if (err) return next(err);
+						usergroups = items;
+						next();
+					})
+			}
+		], function(err) {
+			if (err) return jump(err);
+
+			res.send({status: 'success', template: 'UserEdit', data: {user: user, usergroups: usergroups}});
 		});
 	});
 }
