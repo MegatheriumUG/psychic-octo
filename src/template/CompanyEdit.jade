@@ -1,0 +1,18 @@
+include ./header.jade
+
+h1 Unternehmen "#{data.company.name}" bearbeiten
+
+include ./errors.jade
+
+if status == 'success'
+	p.success Das Unternehmen wurde erfolgreich aktualisiert.
+
+form(method="POST" action="/CompanyEdit?sessionId=#{sessionId}")
+	div.field
+		label Name
+		input(type="text" name="name" required="required" value="#{data.company.name}")
+	div.field
+		label Beschreibung
+		textarea(name="description") #{data.company.description}
+	input(type="hidden" name="companyId" value="#{data.company._id}")
+	input(type="submit" value="Aktualisieren")

@@ -1,23 +1,23 @@
-html(ng-app='psychicOctophant')
-	head
-		title="Psychic Octophant - A Project Manager"
-		link(href="css/stylesheet.css" rel="stylesheet")
-		script(src="js/angular.js")
-	body
-		section.itemList(ng-controller="companyListController")
-			
-			a(href="/ProjectList" ng-repeat="company in companies")
-				.item
-					table.itemTable.horiz-center
-						tr
-							td.shrink
-								.tableWrapper
-									img.itemImage(src="{{company.img}}")
-							td
-								h3.itemName.left {{company.name}}
-								p.itemDescription.left {{company.description}}
-							td
-								.tableWrapper
-									img.icon(src="img/edit.png")
-			a(href="/CompanyAdd")
-				img.icon(src="img/add.png")
+include ./header.jade
+
+h1 Alle Unternehmen (#{data.companies.length})
+
+if status == 'success.delete'
+	p.success Das Unternehmen wurde erfolgreich gelöscht.
+
+div.button
+	a(href="/CompanyAdd?sessionId=#{sessionId}") Neues Unternehmen anlegen
+
+table
+	thead
+		tr
+			th Name
+			th(colspan="2") Aktionen
+	tbody
+		each company in data.companies
+			tr
+				td #{company.name}
+				td
+					a(href="/CompanyEdit?sessionId=#{sessionId}&companyId=#{company._id}") Bearbeiten
+				td
+					a(href="/CompanyDelete?sessionId=#{sessionId}&companyId=#{company._id}") Löschen
