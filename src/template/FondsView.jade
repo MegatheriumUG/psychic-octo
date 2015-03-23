@@ -27,18 +27,24 @@ table
 			th Umfang
 			th Kaufkurs
 			th Verkaufkurs
+			th Gebühren
 			th Bilanz
 	tbody
 		each trade in data.trades
+			- var fees = trade.volume*(trade.position.close-trade.position.open)-trade.earnings;
 			tr
 				td #{trade.time.open.getDate()}.#{trade.time.open.getMonth()+1}.#{trade.time.open.getFullYear()}
-				td #{trade.volume} BTC
-				td #{trade.position.open*trade.volume}
-				td #{trade.position.close*trade.volume}
-				if trade.earnings < 0
-					td(style="color: red") - #{-trade.earnings}
+				td(style="text-align: right") #{trade.volume} BTC
+				td #{trade.position.open}
+				td #{trade.position.close}
+				if trade.earnings != 0
+					td #{parseInt(fees*100)/100} € (#{parseInt(fees/(trade.volume*trade.position.open)*10000)/100} %)
 				else
-					td(style="color: green") + #{trade.earnings}
+					td ?
+				if trade.earnings < 0
+					td(style="color: red") - #{-trade.earnings} (- #{-parseInt(trade.earnings/(trade.volume*trade.position.open)*10000)/100} %)
+				else
+					td(style="color: green") + #{trade.earnings} (#{parseInt(trade.earnings/(trade.volume*trade.position.open)*10000)/100} %)
 
 
 h2 Kunden (#{data.fonds.customers.length})

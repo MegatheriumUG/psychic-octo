@@ -60,7 +60,8 @@ exports.setup = function(app) {
 					fonds.customers[i].fondsShare = fonds.customers[i].deposit.initial / initial;
 				}
 				for (var i = 0; i < fees.length; ++i) {
-					balance -= fees[i].amount;	
+					balance -= fees[i].amount;
+					deposit -= fees[i].amount;
 				}
 				for (var i = 0; i < trades.length; ++i) {
 					deposit += trades[i].earnings;

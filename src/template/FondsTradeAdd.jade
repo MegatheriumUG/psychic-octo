@@ -20,7 +20,7 @@ form(method="POST" action="/FondsTradeAdd?sessionId=#{sessionId}")
 				option(value="#{platform._id}") #{platform.name}
 	div.field
 		label Menge
-		input(type="number" name="volume" step="0.01")
+		input(type="number" name="volume" step="0.00000001")
 	div.field
 		label Einkaufskurs
 		input(type="number" name="positionOpen" step="0.01")

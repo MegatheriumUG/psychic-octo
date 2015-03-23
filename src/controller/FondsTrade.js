@@ -54,9 +54,9 @@ exports.setup = function(app) {
 					position: {
 						open: req.body.positionOpen,
 						expected: req.body.positionExpected,
-						close: req.body.positionClose
+						close: req.body.positionClose ? req.body.positionClose : 0
 					},
-					earnings: req.body.earnings
+					earnings: req.body.earnings ? req.body.earnings : 0
 				});
 
 			async.parallel([

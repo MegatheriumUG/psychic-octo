@@ -1,0 +1,111 @@
+Aktuelle ToDos:
+	Das "MonGOD" genannte Unterprogramm muss am 1.04. in Betrieb gehen. Um umfangreiche Tests zu ermöglichen, und dem potentiellen Verschleppen der Deadline entgegenzuwirken, sollten die folgenden Controller am Mittwoch, am 25.3., ab 15:00 einsatzbereit sein:
+		GET /ServerList
+			- liste aller Server, sowie Anzeige der sekundären Domain. Die sekundäre Domain ist die zweite (!) domain, die einem Server hinzugefügt wurde, d.h. auffindbar unter server.domains[1]. Aber: nicht jeder Server besitzt eine sekundäre Domain.
+		GET /ServerAdd
+		POST /ServerAdd
+			- fügt einen neuen Server in die Liste der verwalteten hinzu
+		GET /ServerEdit
+		POST /ServerEdit
+			- bearbeitet einen bestehenden Server. Domains werden in einem seperaten Controller hinzugefügt, siehe ServerView
+		GET /ServerView
+			- Übersicht über einen einzelnen Server.
+			- Listet alle Domains, die diesem Server hinzugefügt wurden, auf.
+			- Beinhaltet ein-Zeilen-Formular, um neue Domains hinzuzufügen (siehe POST /ServerDomainAdd)
+		GET /ServerDelete
+			- löscht einen Server aus der Datenbank (oder versteckt ihn)
+		POST /ServerDomainAdd
+			- fügt eine Domain zu einem Server hinzu. Ggfs. mit port, aber immer ohne Protokoll und Pfad (d.h. "bla.foo.com:2000" statt "http://bla.foo.com:2000/Home"). Validierung kann im Textfeld dank HTML5 erfolgen, als NICHT_MUST_HAVE wäre das cool mal auszuprobieren :D. In HTML5 kann man Textfeldern regex geben, mit denen die inhalte validiert werden.
+			- Parameter: serverId und domain
+
+		GET /ServiceList
+			- listet alle Services auf, grob, in einer Tabelle.
+			- Spalten: Name, Aktionen
+		GET /ServiceAdd
+		POST /ServiceAdd
+			- simpler ServiceAdd-Controller mit Formular.
+			- Eingabefelder: "Name"
+			- alle anderen Werte werden im nachhinein zugeordnet, siehe GET /ServiceView
+		GET /ServiceView
+			- Übersicht über den Service. Jeder Service hat scheiße in den Haaren.
+			- außerdem Skripte, Dateien und unterschiedliche Konfigurationen.
+			- Konfigurationen, Skripte, Dateien in _dieser_ Reihenfolge in 3 Tabellen jeweils auflisten.
+			- Skripte: Die einzelnen Befehle eines Skripts untereinander auflisten
+		GET /ServiceScriptAdd
+		POST /ServiceScriptAdd
+			- einfaches Formular zum erstellen eines Skriptes
+			- Felder: "Skripttyp", "Befehle"
+			- Befehle ist eine textarea, welche im Anschluss serverseitig bei jedem Zeilenumbruch in einzelne Befehle umgewandelt wird
+		GET /ServiceScriptEdit
+		POST /ServiceScriptEdit
+			- Skript-Bearbeitungs-Formular, analog zu ServiceScriptAdd
+		GET /ServiceScriptDelete
+			- entfernt ein Skript und leitet danach zu ner anderen Seite weiter. (erfolgt die Weiterleitung serverseitig oder clientseitig?)
+		GET /ConfigurationFieldList
+			- listet in einer Tabelle die Konfigurations-Werte EINER Konfiguration eines Services auf. Anstelle der Konfiguration eines Services, kann auch die Konfiguration eines Deployments aufgelistet werden. Definitiv wird hier aber nur eine Configuration dargestellt.
+			- beinhaltet ein Ein-Zeilen-Formular mit den Feldern "Name" und "Wert" (name and value), über das ein neues Konfigurationspaar hinzugefügt wird (siehe POST /ServiceConfigurationFieldAdd)
+			- falls möglich: per "klick" in die Tabellenspalte soll sich der Wert zu einem input-Element umwandeln, darin steht der bisherige Wert. Rechts davon ist ein submit-Button, das ganze steht in einem Formular, welcher zu POST /ConfigurationFieldEdit verlinkt, und neben der configurationId auch den name des Wertes angibt. Ansonsten richten wir noch ein GET /ConfigurationFieldEdit-Formular ein.
+		POST /ConfigurationFieldAdd
+			- fügt ein neues Feld zu einer Konfiguration eines Services/Deployments hinzu.
+		GET /ConfigurationFieldDelete
+			- entfernt ein Feld.
+			- zu übermittelnde Werte:
+				- configurationId (id der Konfiguration, die hier bearbeitet wird)
+				- name (name des Feldes)
+		POST /ConfigurationFieldEdit
+			- bearbeitet ein Feld, aktualisiert seinen Wert.
+			- erhält configurationId, name und value
+
+		GET /DeploymentList
+			- listet alle Deployments auf
+			- hat ein-zeilen-formular für die Erstellung eines Deployments (Felder: "Name", "Beschreibung", Controller: POST /DeploymentAdd)
+			- Strukturierung: Tabelle
+			- Spalten: "Name", "Beschreibung" (maximal-breite), "Dienste", "Aktionen"
+			- "Dienste" stellt eine vertikale Liste der hierdrin verwendeten Dienste (nur ihre Namen, die mit GET /ServiceView mit der entsprechenden Übersicht verknüpft sind) dar
+			- Aktionen sind:
+				- /DeploymentDelete - Löschen
+				- /DeploymentView - Übersicht
+		GET /DeploymentView
+			- listet alle Infos zu diesem Deployment auf
+			- Tabellen: "Konfiguration", "Dienste"
+			- "Dienste"-Tabelle:
+				- Darüber: Link zu "Dienst hinzufügen" (/DeploymentServiceAdd)
+				- Spalten: "Name", "Server", "Aktionen"
+				- "Server":
+					- vertikale Auflistung der in diesem Deployment verwendeten Server, jeweils IP-Adresse. Dahinter zu jedem Server die folgenden beiden "Aktionen":
+					- "Starten": /DeploymentServiceStart
+					- "Stoppen": /DeploymentServiceStop
+					- "Installieren": /DeploymentServiceInstall (nur, wenn servers[index].installed "false" ist)
+					- "Deinstallieren": /DeploymentServiceUninstall (nur, wenn servers[index].installed "true" ist)
+				- "Aktionen":
+					- "Löschen": /DeploymentServiceDelete
+					- "Bearbeiten": /DeploymentServiceEdit
+			- "Konfiguration"-Tabelle:
+				- Spalten: "Konfiguration", "Werte", "Aktionen"
+				- Konfiguration = name der konfiguration
+				- werte = anzahl der key-value-pairs
+				- Aktionen:
+					- "Bearbeiten": /ConfigurationFieldList
+					- "Löschen": /DeploymentConfigurationDelete
+						- löscht btw. nur die Verlinkung der Configuration mit diesem Deployment, nicht die Configuration an sich
+		POST /DeploymentAdd
+			- legt mittels "Name" und "Beschreibung" (name and description) ein leeres Deployment an, welches im Anschluss in der DeploymentList-Tabelle angezeigt wird und aufgrund dessen im nachhinein mit inhalten (services, configurations) gefüllt wird
+		GET /DeploymentDelete
+			- löscht ein Deployment
+		GET /DeploymentServiceStart
+		GET /DeploymentServiceStop
+		GET /DeploymentServiceInstall
+		GET /DeploymentServiceUninstall
+			- sind alle unwichtig für die GUI, da eh nur iwo hin weitergeeiertleitet wird (sorry, kb das jetzt zu bschreiben)
+		GET /DeploymentServiceAdd
+		POST /DeploymentServiceAdd
+			- Formular, zum hinzufügen eines Dienstes zu einem Deployment
+			- Felder:
+				- Dienst (Auswahlfeld, mit Liste aller Dienste)
+				- Server (Multi-Auswahlfeld mit einer Liste ALLER Server (dringend notwendig, sobald MonGOD läuft: Textfeld, welches das Auswahlfeld filtert, da wir bereits jetzt 25 Server besitzen und noch nicht mal Dressiety veröffentlicht haben; in Java ist sowas als "ComboBox" bekannt, sicherlich kann man da zunächst eine simple Lösung über jQuery o.ä. einbinden))
+		GET /DeploymentServiceEdit
+		POST /DeploymentServiceEdit
+			- analog DeploymentServiceAdd, halt mit bisherigen Werten im Formular
+		GET /DeploymentConfigurationDelete
+			- entfernt eine configuration von einem Deployment
+
