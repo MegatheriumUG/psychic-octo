@@ -1,9 +1,17 @@
 var async = require('async'),
+	config = require('./config/config.js'),
 	db = require('mongoose'),
 	fs = require('fs'),
 	Company = require('./model/Company.js'),
 	Domain = require('./model/Domain.js'),
-	Server = require('./model/Server.js');
+	Permission = require('./model/Permission.js'),
+	Server = require('./model/Server.js'),
+	User = require('./model/User.js'),
+	Usergroup = require('./model/Usergroup.js');
+
+db.connect('mongodb://'+config.db.ip+':'+config.db.port+'/'+config.db.db);
+
+var t1 = Date.now();
 
 var services = [
 	{name: 'mongodb-config', scripts: [
@@ -207,8 +215,28 @@ async.parallel([
 			});
 			obj.save(next2);
 		}, next);
+	},
+
+	// create administrator user
+	function(next) {
+		var group = new Usergroup({name: 'Administrator'});
+		var user = new User({username: 'admin', name: 'Jon', surname: 'Duh', email: 'app@megatherium.to', password: 'abc', usergroups: [group._id]});
+		var permissions = [
+			'company.canList',
+			'server.canList'
+		];
+		async.parallel([
+			function(next2) {group.save(next2);},
+			function(next2) {user.save(next2);},
+			function(next2) {
+				async.each(permissions, function(name, next3) {
+					var permission = new Permission({name: name, usergroup: group._id, value: true});
+					permission.save(next3);
+				}, next2);
+			}
+		], next);
 	}
 ], function(err) {
 	if (err) throw err;
-	console.log('Installation erfolgreich abgeschlossen');
+	console.log('Installation erfolgreich abgeschlossen in '+(Date.now()-t1)+'ms');
 });

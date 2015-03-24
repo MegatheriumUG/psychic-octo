@@ -11,6 +11,7 @@ Session.methods.hasPermission = function(name, callback) {
 	// populate user
 	this.populate('user', function(err) {
 		if (err) return callback(err);
+		if (!this.user) return callback(false, false);
 
 		this.user.hasPermission(name, callback);
 	}.bind(this));

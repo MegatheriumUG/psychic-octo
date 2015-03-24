@@ -26,7 +26,7 @@ app.use(function(req, res, next) {
 		fs.readFile('./template/'+content.template+'.jade', function(err, tpl) {
 			if (err) {
 				console.log(err);
-				return send('bambambam... error, sry pplz');
+				return send(JSON.stringify(content));
 			}
 
 			var fn = jade.compile(tpl, {filename: './template/'+content.template+'.jade'});
@@ -48,6 +48,11 @@ app.all('*', function(req, res, callback) {
 	Session.findOne({_id: req.param('sessionId')})
 		.exec(function(err, session) {
 			if (err) return callback(err);
+			if (!session) {
+				session = new Session();
+				res.locals.session = session;
+				return session.save(callback);
+			}
 
 			res.locals.session = session;
 			callback();
@@ -65,10 +70,12 @@ app.all('*', function(req, res, callback) {
 	'FondsPlatform',
 	'FondsTrade',
 	'Git',
+	'Home',
 	'Permission',
 	'Project',
 	'ProjectTask',
 	'ProjectTaskStatus',
+	'Server',
 	'User',
 	'Usergroup'
 ].map(function(controllerName) {

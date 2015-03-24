@@ -2,21 +2,27 @@ Aktuelle ToDos:
 	Das "MonGOD" genannte Unterprogramm muss am 1.04. in Betrieb gehen. Um umfangreiche Tests zu ermöglichen, und dem potentiellen Verschleppen der Deadline entgegenzuwirken, sollten die folgenden Controller am Mittwoch, am 25.3., ab 15:00 einsatzbereit sein:
 		GET /ServerList
 			- liste aller Server, sowie Anzeige der sekundären Domain. Die sekundäre Domain ist die zweite (!) domain, die einem Server hinzugefügt wurde, d.h. auffindbar unter server.domains[1]. Aber: nicht jeder Server besitzt eine sekundäre Domain.
+			- liefert als Status "success.delete", wenn zuvor ein Server gelöscht wurde. Der ServerDelete-Controller leitet zur ServerList um.
 		GET /ServerAdd
 		POST /ServerAdd
 			- fügt einen neuen Server in die Liste der verwalteten hinzu
+			- Parameter: "ram" (step=0.01), "cpus", "hdd", "ssd" (all numbers, step=1), "domains" (comma-seperated list of domains, normal textfield), "ip" (required), "ownerId"
 		GET /ServerEdit
 		POST /ServerEdit
 			- bearbeitet einen bestehenden Server. Domains werden in einem seperaten Controller hinzugefügt, siehe ServerView
+			- Felder: "ram", "cpus", "hdd", "ssd", "ip", "ownerId", "serverId"
 		GET /ServerView
 			- Übersicht über einen einzelnen Server.
 			- Listet alle Domains, die diesem Server hinzugefügt wurden, auf.
 			- Beinhaltet ein-Zeilen-Formular, um neue Domains hinzuzufügen (siehe POST /ServerDomainAdd)
+			- hat den Status "success.domainAdd", wenn zuvor eine Domain zu diesem Server hinzugefügt wurde
 		GET /ServerDelete
 			- löscht einen Server aus der Datenbank (oder versteckt ihn)
+			- leitet zu ServerList um
 		POST /ServerDomainAdd
 			- fügt eine Domain zu einem Server hinzu. Ggfs. mit port, aber immer ohne Protokoll und Pfad (d.h. "bla.foo.com:2000" statt "http://bla.foo.com:2000/Home"). Validierung kann im Textfeld dank HTML5 erfolgen, als NICHT_MUST_HAVE wäre das cool mal auszuprobieren :D. In HTML5 kann man Textfeldern regex geben, mit denen die inhalte validiert werden.
 			- Parameter: serverId und domain
+			- leitet zu ServerView um
 
 		GET /ServiceList
 			- listet alle Services auf, grob, in einer Tabelle.
