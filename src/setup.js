@@ -223,7 +223,8 @@ async.parallel([
 		var user = new User({username: 'admin', name: 'Jon', surname: 'Duh', email: 'app@megatherium.to', password: 'abc', usergroups: [group._id]});
 		var permissions = [
 			'company.canList',
-			'server.canList'
+			'server.canList', 'server.canAdd', 'server.canEdit', 'server.canDelete',
+			'service.canList', 'service.canAdd', 'service.canAddScript', 'service.canEditScript', 'service.canDeleteScript'
 		];
 		async.parallel([
 			function(next2) {group.save(next2);},

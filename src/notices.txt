@@ -37,16 +37,18 @@ Aktuelle ToDos:
 			- außerdem Skripte, Dateien und unterschiedliche Konfigurationen.
 			- Konfigurationen, Skripte, Dateien in _dieser_ Reihenfolge in 3 Tabellen jeweils auflisten.
 			- Skripte: Die einzelnen Befehle eines Skripts untereinander auflisten
+			- hat status "success.scriptDelete", wenn ein Skript dieses Dienstes zuvor gelöscht wurde
 		GET /ServiceScriptAdd
 		POST /ServiceScriptAdd
 			- einfaches Formular zum erstellen eines Skriptes
 			- Felder: "Skripttyp", "Befehle"
 			- Befehle ist eine textarea, welche im Anschluss serverseitig bei jedem Zeilenumbruch in einzelne Befehle umgewandelt wird
+			- sende natürlich serviceId mit!
 		GET /ServiceScriptEdit
 		POST /ServiceScriptEdit
 			- Skript-Bearbeitungs-Formular, analog zu ServiceScriptAdd
 		GET /ServiceScriptDelete
-			- entfernt ein Skript und leitet danach zu ner anderen Seite weiter. (erfolgt die Weiterleitung serverseitig oder clientseitig?)
+			- entfernt ein Skript und leitet danach zu ServiceView mit dem Status "success.scriptDelete" weiter
 		GET /ConfigurationFieldList
 			- listet in einer Tabelle die Konfigurations-Werte EINER Konfiguration eines Services auf. Anstelle der Konfiguration eines Services, kann auch die Konfiguration eines Deployments aufgelistet werden. Definitiv wird hier aber nur eine Configuration dargestellt.
 			- beinhaltet ein Ein-Zeilen-Formular mit den Feldern "Name" und "Wert" (name and value), über das ein neues Konfigurationspaar hinzugefügt wird (siehe POST /ServiceConfigurationFieldAdd)
