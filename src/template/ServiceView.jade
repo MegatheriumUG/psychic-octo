@@ -2,44 +2,54 @@ include ./header.jade
 
 h1 Service #{data.service.name}
 
+h2 Konfiguration
+
 table
 	thead
 		tr
-			th(colspan="2") Konfiguration
-			th Dateien
-			th(colspan="2") Skripte
-			th(colspan="4") Aktionen
-		tr
 			th Name
 			th Wert
+	tbody
+		each config in data.service.configurations
+			tr
+				td #{config.name}
+				td #{config.value}
+
+.divider
+
+h2 Dateien
+
+table
+	thead
+		tr
 			th Name
+			th Inhalt
+	tbody
+		each file in data.service.files
+			td #{file.name}
+			td #{file.content}
+
+.divider
+
+h2 Skripte
+.button
+	a.innerButton(href="/ServiceScriptAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Skript hinzufügen
+table
+	thead
+		tr
 			th Typ
 			th Befehle
+			th(colspan="2") Aktionen
 	tbody
-		tr
-			td(colspan="2")
-				each config in data.service.configurations
-					tr
-						td config.name
-						td config.value
-			td
-				each file in data.service.files
-					tr
-						td file.name
-			td(colspan="5")
-				each script in data.service.scripts
-					tr
-						td script.type
-						td
-							each command in script.commands
-								tr
-									td #{command}
-						td
-							.button
-								a.innerButton(href="/ServiceScriptEdit?sessionId=#{sessionId}&scriptId=#{script._id}") Bearbeiten
-						td
-							.button
-								a.innerButton(href="/ServiceScriptDelete") Löschen
-			td
-				.button
-					a.innerButton(href="/ServiceScriptAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Skript hinzufügen
+		each script in data.service.scripts
+			tr
+				td #{script.type}
+				td
+					each command in script.commands
+						p #{command}
+				td
+					.button
+						a.innerButton(href="/ServiceScriptEdit?sessionId=#{sessionId}&scriptId=#{script._id}") Bearbeiten
+				td
+					.button
+						a.innerButton(href="/ServiceScriptDelete?sessionId=#{sessionId}&scriptId=#{script._id}") Löschen
