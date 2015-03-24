@@ -11,7 +11,9 @@ form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 		input(type="text" name="ip" required value=data.server.ip)
 	.field
 		label Eigentümer
-		input(type="text" name="ownerId" required value=data.server.owner)
+		select(name="ownerId")
+			each company in data.companies
+				option(value="company._id" selected=data.server.owner._id==company._id ? '' : undefined) #{company.name}
 	.field
 		label Domains
 		input(type="text" name="domains" value=data.server.domains)
@@ -21,7 +23,7 @@ form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 		label mb
 	.field
 		label CPUs
-		input(type="number" name="cpu" min="1" step="1" value=data.server.resources.cpu)
+		input(type="number" name="cpu" min="1" step="1" value=data.server.resources.cpus)
 	.field
 		label HDDs
 		input(type="number" name="hdd" min="0" step="1" value=data.server.resources.hdd)

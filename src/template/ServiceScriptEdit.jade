@@ -1,0 +1,30 @@
+include ./header.jade
+
+h1 Skript erstellen
+
+if status == 'success'
+	p.success Skript erfolgreich aktualisiert
+
+- var commands = function() {
+-	var str = '';
+-	for(var i = 0; i < data.script.commands.length; ++i) {
+-		str += data.script.commands[i] + '\n';
+-	}	
+-	return str;
+-}
+
+form(method="POST" action="/ServiceScriptEdit?sessionId=#{sessionId}")
+	.field
+		label Typ
+		select(name="type")
+			option(value="install" selected=data.script.type == 'install' ? '' : undefined) Installieren
+			option(value="uninstall" selected=data.script.type == 'uninstall' ? '' : undefined) Deinstallieren
+			option(value="start" selected=data.script.type == 'start' ? '' : undefined) Starten
+			option(value="stop" selected=data.script.type == 'stop' ? '' : undefined) Stoppen
+			option(value="setup" selected=data.script.type == 'setup' ? '' : undefined) Setup
+	.field
+		label Befehle
+		textarea(name="commands") #{commands()}
+	input(type="hidden" name="scriptId" value="#{data.script._id}")
+	.button
+		input.innerButton(type="submit" value="Aktualisieren")

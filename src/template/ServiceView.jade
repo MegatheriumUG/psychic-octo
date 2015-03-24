@@ -4,18 +4,19 @@ h1 Service #{data.service.name}
 
 h2 Konfiguration
 
+.button
+	a.innerButton(href="/ServiceConfigurationAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Skript hinzufügen
 table
 	thead
 		tr
 			th Name
 			th Wert
+			th(colspan="2") Aktionen
 	tbody
 		each config in data.service.configurations
 			tr
 				td #{config.name}
 				td #{config.value}
-
-.divider
 
 h2 Dateien
 
@@ -28,8 +29,6 @@ table
 		each file in data.service.files
 			td #{file.name}
 			td #{file.content}
-
-.divider
 
 h2 Skripte
 .button
