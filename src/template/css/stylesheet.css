@@ -1,166 +1,158 @@
-/* line 1, stylesheet.scss */
-.top {
-  vertical-align: top;
+
+
+body {
+	display: inline;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	font-size: 15px;
 }
 
-/* line 5, stylesheet.scss */
-.bottom {
-  vertical-align: bottom;
+select {
+	font-size: medium;
+	min-width: 200px;
 }
 
-/* line 9, stylesheet.scss */
+table < input {
+	width: 80%;
+}
+
+textarea {
+	width: 80%;
+}
+
+p.line {margin-top: 0; margin-bottom: 0;}
+
+/* Formulare */
+.field {display: block;}
+.field label {width: 200px; display: inline-block;}
+.field em {display: block; color: gray;}
+
+/* Tabellen */
+td.center {text-align: center;}
+td.cost {min-width: 100px; text-align: right;}
+
+a {
+	color: #dd8c49;
+	text-decoration: none;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+}
+
+.divider {
+	width: 100%;
+	border-bottom: 1px solid #666;
+	margin: 20px 0;
+}
+
+.button {
+	border-bottom: 2px solid #dd8c49;
+	display: inline-block;
+	padding: 20px 0;
+}
+
+.button .innerButton {
+	padding: 18px 20px;
+	border-bottom: 2px solid #dd8c49;
+	background-color: #dd8c49;
+	color: #fff;
+	font-size: 20px;
+	text-decoration: none;
+	display: inline;
+	overflow: auto;
+}
+
+.innerButton:hover {
+	border-bottom-color: #70a8c8;
+}
+
 .left {
-  text-align: left;
-  margin-left: 1em;
+	text-align: left;
+	float: left;
+	margin-left: 0;
 }
 
-/* line 14, stylesheet.scss */
 .right {
-  text-align: right;
-  margin-right: 1em;
+	text-align: right;
+	float: right;
+	margin-right: 0;
 }
 
-/* line 19, stylesheet.scss */
-.tableWrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
+table {
+	border-collapse: collapse;
+	width: 100%;
+
 }
 
-/* line 25, stylesheet.scss */
-.green {
-  color: green;
-  border-color: green;
+thead {
+	border-bottom: 2px solid #dd8c49;
 }
 
-/* line 29, stylesheet.scss */
-.blue {
-  color: blue;
-  border-color: blue;
+th {
+	color: #dd8c49;
+	padding: 20px;
+	text-align: left;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
-/* line 33, stylesheet.scss */
-.red {
-  color: red;
-  border-color: red;
+td {
+	padding: 10px;
+	text-align: left;
 }
 
-/* line 38, stylesheet.scss */
-.horiz-center {
-  margin-left: auto;
-  margin-right: auto;
+tr:nth-child(n+2) {
+	border-top: 1px solid #ccc;
 }
 
-/* line 43, stylesheet.scss */
-.vert-center {
-  margin-top: auto;
-  margin-bottom: auto;
+tr:hover {
+	color: #5088a8;
+	border-top-color: #cacaca;
 }
 
-/* line 48, stylesheet.scss */
-.icon {
-  max-width: 20px;
-  max-height: 20px;
+/* Fehler & Success */
+.error {color: red;}
+.warning {color: #C5AA19;}
+.success {color: green;}
+
+.title {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
-/* line 53, stylesheet.scss */
-.form {
-  width: 50%;
-  font-family: "Myriad Pro";
-}
-/* line 56, stylesheet.scss */
-.form div {
-  display: block;
-}
-/* line 58, stylesheet.scss */
-.form div p {
-  display: inline-block;
-  margin-right: 10px;
+.menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	width: 100%;
+	border-bottom: 2px solid #dd8c49;
 }
 
-/* line 65, stylesheet.scss */
-.textInput {
-  border: none;
-  border-bottom: 1px solid black;
+.menu li {
+	float: left;
+	width:12.5%;
 }
 
-/* line 70, stylesheet.scss */
-.itemList {
-  width: 100%;
-  display: inline-block;
-  font-family: "Myriad Pro";
-}
-/* line 74, stylesheet.scss */
-.itemList .item {
-  width: 80%;
-}
-/* line 76, stylesheet.scss */
-.itemList .item :hover {
-  background-color: gray;
-}
-/* line 79, stylesheet.scss */
-.itemList .item .itemTable {
-  width: 100%;
-  border: black;
-}
-/* line 84, stylesheet.scss */
-.itemList .item .itemTable .shrink {
-  width: 1%;
-}
-/* line 89, stylesheet.scss */
-.itemList .item .itemImage {
-  left: 0;
-  width: 5em;
-  height: 5em;
-}
-/* line 94, stylesheet.scss */
-.itemList .item .itemName {
-  top: 5px;
-}
-/* line 97, stylesheet.scss */
-.itemList .item .itemDescription {
-  bottom: 2px;
-}
-/* line 100, stylesheet.scss */
-.itemList .item .itemNumbers {
-  position: relative;
-  vertical-align: top;
-  text-align: right;
-  right: 0;
-  top: 5px;
-}
-/* line 106, stylesheet.scss */
-.itemList .item .itemNumbers div {
-  display: inline;
-  font-weight: bold;
-}
-/* line 113, stylesheet.scss */
-.itemList .item .progressBar {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  font-size: 0;
-}
-/* line 118, stylesheet.scss */
-.itemList .item .progressBar div {
-  height: 4px;
-  margin: 0;
-  display: inline-block;
-}
-/* line 124, stylesheet.scss */
-.itemList .item .progressBar .green {
-  width: 50%;
-  background-color: green;
-}
-/* line 128, stylesheet.scss */
-.itemList .item .progressBar .blue {
-  width: 30%;
-  background-color: blue;
-}
-/* line 132, stylesheet.scss */
-.itemList .item .progressBar .red {
-  width: 20%;
-  background-color: red;
+.menu a {
+	color: #fff;
+	background-color: #dd8c49;
+	padding: 15px;
+	padding-left: 35px;
+	padding-right: 35px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;	
+	display: block;
+	border-bottom: 2px solid #dd8c49;
 }
 
-/*# sourceMappingURL=stylesheet.css.map */
+.menu .active {
+	border-bottom-color: #90c8e8;
+}
+
+.menu a:hover, a:active {
+	border-bottom-color: #70a8c8;
+}

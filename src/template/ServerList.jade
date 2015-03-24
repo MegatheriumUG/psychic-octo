@@ -19,17 +19,18 @@ table
 			th CPUs
 			th HDDs
 			th SSDs
+			th(colspan="2")
 
 	tbody
 		each server in data.servers
 			tr
 				td #{server.ip}
-				td #{server.owner}
+				td #{server.owner.name}
 				td
 					each domain in server.domains
 						p #{domain}
 				td #{server.resources.ram}
-				td #{server.resources.cpu}
+				td #{server.resources.cpus}
 				td #{server.resources.hdd}
 				td #{server.resources.ssd}
 				td
