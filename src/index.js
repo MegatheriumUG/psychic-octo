@@ -62,6 +62,7 @@ app.all('*', function(req, res, callback) {
 // Import der Controller
 [
 	'Company',
+	'Configuration',
 	'DiscussionPost',
 	'DiscussionThread',
 	'Fonds',

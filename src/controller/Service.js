@@ -1,4 +1,5 @@
 var async = require('async'),
+	Script = require('../model/Script.js'),
 	Service = require('../model/Service.js');
 
 exports.setup = function(app) {
