@@ -36,10 +36,10 @@ table
 									td #{command}
 						td
 							.button
-								a.innerButton(href="/ServiceScriptEdit") Bearbeiten
+								a.innerButton(href="/ServiceScriptEdit?sessionId=#{sessionId}&scriptId=#{script._id}") Bearbeiten
 						td
 							.button
 								a.innerButton(href="/ServiceScriptDelete") Löschen
 			td
 				.button
-					a.innerButton(href="/ServiceScriptAdd") Skript hinzufügen
+					a.innerButton(href="/ServiceScriptAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Skript hinzufügen

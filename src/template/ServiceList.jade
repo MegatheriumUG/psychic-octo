@@ -13,11 +13,6 @@ table
 			th Dateien
 			th Konfiguration
 			th(colspan="2") Aktionen
-		tr
-			th(colspan="3")
-			th Name
-			th Wert
-			th(colspan="2")
 	tbody
 		each service in data.services
 			tr
@@ -27,7 +22,7 @@ table
 				td #{service.configurations.length}
 				td
 					.button
-						a.innerButton(href="/ServiceEdit?sessionId=#{sessionId}&serviceId=#{service._id}") Bearbeiten
+						a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{service._id}") Bearbeiten
 				td
 					.button
 						a.innerButton(href="/ServiceDelete?sessionId=#{sessionId}&serviceId=#{service._id}") Löschen
