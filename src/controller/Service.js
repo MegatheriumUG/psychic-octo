@@ -85,7 +85,7 @@ exports.setup = function(app) {
 					commands: []
 				}),
 				service = null;
-			var parts = req.body.commands.split(',');
+			var parts = req.body.commands.split('\n');
 			for (var i = 0; i < parts.length; ++i) {
 				parts[i] = parts[i].trim();
 				if (parts[i]) script.commands.push(parts[i]);
@@ -96,8 +96,10 @@ exports.setup = function(app) {
 				function(next) {
 					Service.findById(req.body.serviceId)
 						.exec(function(err, item) {
+							if (err) return next(err);
 							service = item;
-							next(err);
+							service.scripts.push(script._id);
+							service.save(next);
 						});
 				}
 			], function(err) {
