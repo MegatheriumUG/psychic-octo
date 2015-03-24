@@ -1,5 +1,5 @@
 var async = require('async'),
-	Owner = require('../model/Owner.js'),
+	Company = require('../model/Company.js'),
 	Server = require('../model/Server.js');
 
 exports.setup = function(app) {
@@ -26,7 +26,7 @@ exports.setup = function(app) {
 			if (err) return jump(err);
 			if (!has) return res.send({template: 'PermissionError', errors: ['Sie haben nicht die notwendige Berechigung (server.canAdd).']});
 
-			Owner.find({})
+			Company.find({})
 				.sort('name')
 				.exec(function(err, owners) {
 					if (err) return jump(err);
@@ -62,7 +62,7 @@ exports.setup = function(app) {
 			async.parallel([
 				function(next) {server.save(next);},
 				function(next) {
-					Owner.find({})
+					Company.find({})
 						.sort('name')
 						.exec(function(err, items) {
 							owners = items;

@@ -53,16 +53,20 @@ Aktuelle ToDos:
 			- listet in einer Tabelle die Konfigurations-Werte EINER Konfiguration eines Services auf. Anstelle der Konfiguration eines Services, kann auch die Konfiguration eines Deployments aufgelistet werden. Definitiv wird hier aber nur eine Configuration dargestellt.
 			- beinhaltet ein Ein-Zeilen-Formular mit den Feldern "Name" und "Wert" (name and value), über das ein neues Konfigurationspaar hinzugefügt wird (siehe POST /ServiceConfigurationFieldAdd)
 			- falls möglich: per "klick" in die Tabellenspalte soll sich der Wert zu einem input-Element umwandeln, darin steht der bisherige Wert. Rechts davon ist ein submit-Button, das ganze steht in einem Formular, welcher zu POST /ConfigurationFieldEdit verlinkt, und neben der configurationId auch den name des Wertes angibt. Ansonsten richten wir noch ein GET /ConfigurationFieldEdit-Formular ein.
+			- hat status "success.add", wenn ein Feld erfolgreich hinzugefügt wurde - oder "success.edit" und "success.delete"
 		POST /ConfigurationFieldAdd
 			- fügt ein neues Feld zu einer Konfiguration eines Services/Deployments hinzu.
+			- leitet zu /ConfigurationFieldList mit status=success.add um
 		GET /ConfigurationFieldDelete
 			- entfernt ein Feld.
 			- zu übermittelnde Werte:
 				- configurationId (id der Konfiguration, die hier bearbeitet wird)
 				- name (name des Feldes)
+			- leitet danach an /ConfiguartionFieldList mit status=success.delete um
 		POST /ConfigurationFieldEdit
 			- bearbeitet ein Feld, aktualisiert seinen Wert.
 			- erhält configurationId, name und value
+			- leitet danach an /ConfigurationFieldList mit status=success.edit weiter
 
 		GET /DeploymentList
 			- listet alle Deployments auf
