@@ -76,6 +76,7 @@ app.all('*', function(req, res, callback) {
 	'ProjectTask',
 	'ProjectTaskStatus',
 	'Server',
+	'Service',
 	'User',
 	'Usergroup'
 ].map(function(controllerName) {
