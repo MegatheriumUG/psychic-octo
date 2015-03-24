@@ -82,14 +82,33 @@ exports.setup = function(app) {
 			if (err) return jump(err);
 			if (!has) return res.send({template: 'PermissionError', errors: ['Sie haben nicht die notwendige Berechigung (server.canEdit).']});
 
-			Server.findById(req.query.serverId)
-				.populate('owner')
-				.exec(function(err, server) {
-					if (err) return jump(err);
-					if (!server) return res.send({errors: ['Der Server ist nonexistent.']});
+			var server = null,
+				companies = [];
+			async.parallel([
+				function(next) {
+					Server.findById(req.query.serverId)
+						.populate('owner')
+						.exec(function(err, item) {
+							if (err) return next(err);
+							if (!item) return res.send({errors: ['Der Server ist nonexistent.']});
+							server = item;
+							next();
+						});
+				},
 
-					res.send({template: 'ServerEdit', data: {server: server}});
-				});
+				function(next) {
+					Company.find({})
+						.sort('name')
+						.exec(function(err, items) {
+							servers = items;
+							next(err);
+						});
+				}
+			], function(err) {
+				if (err) return jump(err);
+
+				res.send({template: 'ServerEdit', data: {server: server, companies: companies}});
+			});
 		});
 	});
 
@@ -98,26 +117,43 @@ exports.setup = function(app) {
 			if (err) return jump(err);
 			if (!has) return res.send({template: 'PermissionError', errors: ['Sie haben nicht die notwendige Berechigung (server.canEdit).']});
 
-			Server.findById(req.body.serverId)
-				.populate('owner')
-				.exec(function(err, server) {
-					if (err) return jump(err);
-					if (!server) return res.send({errors: ['Der Server ist nonexistent.']});
+			var companies = [],
+				server = null;
 
-					server.ip = req.body.ip;
-					server.owner = req.body.ownerId;
-					server.resources = {
-						ram: req.body.ram,
-						cpus: req.body.cpus,
-						hdd: req.body.hdd,
-						ssd: req.body.ssd
-					};
-					server.save(function(err) {
-						if (!err) return jump(err);
+			async.parallel([
+				function(next) {
+					Server.findById(req.body.serverId)
+						.populate('owner')
+						.exec(function(err, item) {
+							if (err) return jump(err);
+							if (!item) return res.send({errors: ['Der Server ist nonexistent.']});
 
-						res.send({status: 'success', template: 'ServerEdit', data: {server: server}});
-					});
-				});
+							server = item;
+							server.ip = req.body.ip;
+							server.owner = req.body.ownerId;
+							server.resources = {
+								ram: req.body.ram,
+								cpus: req.body.cpus,
+								hdd: req.body.hdd,
+								ssd: req.body.ssd
+							};
+							server.save(next);
+						});
+				},
+
+				function(next) {
+					Company.find({})
+						.sort('name')
+						.exec(function(err, items) {
+							companies = items;
+							next(err);
+						})
+				}
+			], function(err) {
+				if (err) return jump(err);
+
+				res.send({status: 'success', template: 'ServerEdit', data: {server: server, companies: companies}});
+			});
 		});
 	});
 
