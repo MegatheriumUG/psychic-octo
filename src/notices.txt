@@ -77,6 +77,7 @@ Aktuelle ToDos:
 			- Aktionen sind:
 				- /DeploymentDelete - Löschen
 				- /DeploymentView - Übersicht
+			- hat Status "success.delete", wenn zuvor ein Deployment gelöscht wurde
 		GET /DeploymentView
 			- listet alle Infos zu diesem Deployment auf
 			- Tabellen: "Konfiguration", "Dienste"
@@ -100,10 +101,13 @@ Aktuelle ToDos:
 					- "Bearbeiten": /ConfigurationFieldList
 					- "Löschen": /DeploymentConfigurationDelete
 						- löscht btw. nur die Verlinkung der Configuration mit diesem Deployment, nicht die Configuration an sich
+			- hat Status "success.add", wenn vorher das Deployment erstellt wurde
+			- hat Status "success.configurationDelete", wenn vorher eine config dieses deploys gelösccht wurde
 		POST /DeploymentAdd
 			- legt mittels "Name" und "Beschreibung" (name and description) ein leeres Deployment an, welches im Anschluss in der DeploymentList-Tabelle angezeigt wird und aufgrund dessen im nachhinein mit inhalten (services, configurations) gefüllt wird
+			- leitet nach "/DeploymentView" zu dem erstellen View um
 		GET /DeploymentDelete
-			- löscht ein Deployment
+			- löscht ein Deployment, leitet mit status=success.delete nach DeploymentList um
 		GET /DeploymentServiceStart
 		GET /DeploymentServiceStop
 		GET /DeploymentServiceInstall
@@ -120,4 +124,5 @@ Aktuelle ToDos:
 			- analog DeploymentServiceAdd, halt mit bisherigen Werten im Formular
 		GET /DeploymentConfigurationDelete
 			- entfernt eine configuration von einem Deployment
+			- leitet danach zu DeploymentView mit status=success.configurationDelete weiter
 

@@ -63,6 +63,7 @@ app.all('*', function(req, res, callback) {
 [
 	'Company',
 	'Configuration',
+	'Deployment',
 	'DiscussionPost',
 	'DiscussionThread',
 	'Fonds',
