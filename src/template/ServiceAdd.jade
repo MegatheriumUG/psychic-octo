@@ -1,0 +1,13 @@
+include ./header.jade
+
+h1 Neuen Service erstellen
+
+if status == "success"
+	p.success Service #{data.service.name} erfolgreich erstellt
+
+form(method="POST" action="/ServiceAdd?sessionId=#{sessionId}")
+	.field
+		label Name
+		input(type="text" name="name")
+	.button
+		input.innerButton(type="submit" value="Erstellen")

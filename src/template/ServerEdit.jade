@@ -1,0 +1,32 @@
+include ./header.jade
+
+h1 Server unter #{data.server.ip} bearbeiten
+
+if status == 'success'
+	p.success Server unter #{data.server.ip} erfolgreich bearbeitet.
+
+form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
+	.field
+		label IP
+		input(type="text" name="ip" required value=data.server.ip)
+	.field
+		label Eigentümer
+		input(type="text" name="ownerId" required value=data.server.owner)
+	.field
+		label Domains
+		input(type="text" name="domains" value=data.server.domains)
+	.field
+		label RAM
+		input(type="number" name="ram" min="0" step="0.01" value=data.server.resources.ram)
+		label mb
+	.field
+		label CPUs
+		input(type="number" name="cpu" min="1" step="1" value=data.server.resources.cpu)
+	.field
+		label HDDs
+		input(type="number" name="hdd" min="0" step="1" value=data.server.resources.hdd)
+	.field
+		label SSDs
+		input(type="number" name="sdd" min="0" step="1" value=data.server.resources.ssd)
+	.button
+		input.innerButton(type="submit" value="Aktualisieren")

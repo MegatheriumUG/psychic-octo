@@ -1,0 +1,46 @@
+include ./header.jade
+
+h1 Server
+
+if status == "success.domainAdd"
+	p.success Domain #{data.server.domains[data.server.domains.length-1]} erfolgreich hinzugefügt
+
+table
+	thead
+		tr
+			th IP
+			th Eigentümer
+			th Domains
+			th(colspan="4") Resourcen
+			th(colspan="2") Aktionen
+		tr
+			th(colspan="3")
+			th RAM
+			th CPUs
+			th HDDs
+			th SSDs
+
+	tbody
+		tr
+			td #{data.server.ip}
+			td #{data.server.owner}
+			td
+				each domain in data.server.domains
+					p #{domain}
+				form(method="POST" action="/ServerDomainAdd?sessionId=#{sessionId}")
+					.field
+						label Domain
+						input(type="text" name="domain")
+					.button
+						input.innerButton(type="submit" value="Domain hinzufügen")
+			td #{data.server.resources.ram}
+			td #{data.server.resources.cpu}
+			td #{data.server.resources.hdd}
+			td #{data.server.resources.ssd}
+			td
+				.button
+					a.innerButton(href="/ServerEdit?sessionId=#{sessionId}&serverId=#{data.server._id}") Bearbeiten
+			td
+				.button
+					a.innerButton(href="/ServerDelete?sessionId=#{sessionId}&serverId=#{data.server._id}") Löschen
+				

@@ -1,0 +1,34 @@
+include ./header.jade
+
+h1 Alle Services (#{data.services.length})
+
+.button
+	a.innerButton(href="/ServiceAdd?sessionId=#{sessionId}") Service hinzufügen
+
+table
+	thead
+		tr
+			th Name
+			th Skripte
+			th Dateien
+			th Konfiguration
+			th(colspan="2") Aktionen
+		tr
+			th(colspan="3")
+			th Name
+			th Wert
+			th(colspan="2")
+	tbody
+		each service in data.services
+			tr
+				td #{service.name}
+				td #{service.scripts.length}
+				td #{service.files.length}
+				td #{service.configurations.length}
+				td
+					.button
+						a.innerButton(href="/ServiceEdit?sessionId=#{sessionId}&serviceId=#{service._id}") Bearbeiten
+				td
+					.button
+						a.innerButton(href="/ServiceDelete?sessionId=#{sessionId}&serviceId=#{service._id}") Löschen
+				

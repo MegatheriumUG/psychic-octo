@@ -1,0 +1,41 @@
+include ./header.jade
+
+h1 Alle Server (#{data.servers.length})
+
+.button
+	a.innerButton(href="/ServerAdd?sessionId=#{sessionId}") Server hinzufügen
+
+table
+	thead
+		tr
+			th IP
+			th Eigentümer
+			th Domains
+			th(colspan="4") Resourcen
+			th(colspan="2") Aktionen
+		tr
+			th(colspan="3")
+			th RAM
+			th CPUs
+			th HDDs
+			th SSDs
+
+	tbody
+		each server in data.servers
+			tr
+				td #{server.ip}
+				td #{server.owner}
+				td
+					each domain in server.domains
+						p #{domain}
+				td #{server.resources.ram}
+				td #{server.resources.cpu}
+				td #{server.resources.hdd}
+				td #{server.resources.ssd}
+				td
+					.button
+						a.innerButton(href="/ServerEdit?sessionId=#{sessionId}&serverId=#{server._id}") Bearbeiten
+				td
+					.button
+						a.innerButton(href="/ServerDelete?sessionId=#{sessionId}&serverId=#{server._id}") Löschen
+				

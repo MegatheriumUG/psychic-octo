@@ -1,0 +1,45 @@
+include ./header.jade
+
+h1 Service #{data.service.name}
+
+table
+	thead
+		tr
+			th(colspan="2") Konfiguration
+			th Dateien
+			th(colspan="2") Skripte
+			th(colspan="4") Aktionen
+		tr
+			th Name
+			th Wert
+			th Name
+			th Typ
+			th Befehle
+	tbody
+		tr
+			td(colspan="2")
+				each config in data.service.configurations
+					tr
+						td config.name
+						td config.value
+			td
+				each file in data.service.files
+					tr
+						td file.name
+			td(colspan="5")
+				each script in data.service.scripts
+					tr
+						td script.type
+						td
+							each command in script.commands
+								tr
+									td #{command}
+						td
+							.button
+								a.innerButton(href="/ServiceScriptEdit") Bearbeiten
+						td
+							.button
+								a.innerButton(href="/ServiceScriptDelete") Löschen
+			td
+				.button
+					a.innerButton(href="/ServiceScriptAdd") Skript hinzufügen

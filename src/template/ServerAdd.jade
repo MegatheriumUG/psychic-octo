@@ -1,0 +1,32 @@
+include ./header.jade
+
+h1 Neuen Server erstellen
+
+if status == 'success'
+	p.success Neuen Server unter #{data.server.ip} erfolgreich erstellt.
+
+form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
+	.field
+		label IP
+		input(type="text" name="ip" required)
+	.field
+		label Eigentümer
+		input(type="text" name="ownerId" required)
+	.field
+		label Domains
+		input(type="text" name="domains")
+	.field
+		label RAM
+		input(type="number" name="ram" min="0" step="0.01")
+		label mb
+	.field
+		label CPUs
+		input(type="number" name="cpu" min="1" step="1")
+	.field
+		label HDDs
+		input(type="number" name="hdd" min="0" step="1")
+	.field
+		label SSDs
+		input(type="number" name="sdd" min="0" step="1")
+	.button
+		input.innerButton(type="submit" value="Hinzufügen")
