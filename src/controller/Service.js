@@ -35,7 +35,9 @@ exports.setup = function(app) {
 			service.save(function(err) {
 				if (err) return jump(err);
 
-				res.send({status: 'success', template: 'ServiceAdd', data: {service: service}});
+				res.writeHead(302, {'Location': '/ServiceView?sessionId='+res.locals.session._id+'&serviceId='+service._id+'&status=success.add'});
+				res.end();
+				//res.send({status: 'success', template: 'ServiceAdd', data: {service: service}});
 			});
 		});
 	});
@@ -120,7 +122,9 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!script) return res.send({errors: ['Hatte keine Lust, nach dem Skript zu suchen.']});
 
-					res.send({template: 'ServiceScriptEdit', data: {script: script}});
+					var service = script.service;
+					delete script.service;
+					res.send({template: 'ServiceScriptEdit', data: {script: script, service: service}});
 				});
 		});
 	});

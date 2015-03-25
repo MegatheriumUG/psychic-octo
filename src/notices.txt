@@ -38,6 +38,7 @@ Aktuelle ToDos:
 			- Konfigurationen, Skripte, Dateien in _dieser_ Reihenfolge in 3 Tabellen jeweils auflisten.
 			- Skripte: Die einzelnen Befehle eines Skripts untereinander auflisten
 			- hat status "success.scriptDelete", wenn ein Skript dieses Dienstes zuvor gelöscht wurde
+			- hat status "success.add", wenn dieser Service zuvor erstellt wurde (/ServiceAdd leitet nun hierhin um)
 		GET /ServiceScriptAdd
 		POST /ServiceScriptAdd
 			- einfaches Formular zum erstellen eines Skriptes

@@ -5,6 +5,9 @@ h1 Skript erstellen
 if status == 'success'
 	p.success Skript erfolgreich aktualisiert
 
+.button
+	a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") #{data.service.name}
+
 - var commands = function() {
 -	var str = '';
 -	for(var i = 0; i < data.script.commands.length; ++i) {
