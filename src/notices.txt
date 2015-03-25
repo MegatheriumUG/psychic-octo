@@ -127,3 +127,16 @@ Aktuelle ToDos:
 			- entfernt eine configuration von einem Deployment
 			- leitet danach zu DeploymentView mit status=success.configurationDelete weiter
 
+		GET /ServiceFileAdd
+		POST /ServiceFileAdd
+			- erstellt eine neue Datei in einem Service
+			- Parameter: serviceId, name, content
+			- bitte content-Textarea etwas größer machen (Dateien können lang sein)
+		GET /ServiceFileEdit
+		POST /ServiceFileEdit
+			- Analog zu ServiceFileAdd
+			- "name" soll nicht als Eingabefeld erscheinen, aber mit an den Server geschickt werden (hidden; name dient als identifizierung der datei, so wie eine _id)
+		GET /ServiceFileDelete
+			- lösccht eine Datei
+			- erhält hierzu serviceId und name (Name der Datei)
+			- leitet zu ServiceView mit Status "success.fileDelete" um

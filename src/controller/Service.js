@@ -175,4 +175,101 @@ exports.setup = function(app) {
 				});
 		});
 	});
+
+	app.get('/ServiceFileAdd', function(req, res, jump) {
+		res.locals.session.hasPermission('service.canAddFile', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['Du hast keine Rechte - also bist du kein Nazi. (service.canAddFile)']});
+
+			Service.findById(req.query.serviceId)
+				.exec(function(err, service) {
+					if (err) return jump(err);
+					if (!service) return res.send({errors: ['no such service']});
+
+					res.send({template: 'ServiceFileAdd', data: {service: service}});
+				});
+		});
+	});
+
+	app.post('/ServiceFileAdd', function(req, res, jump) {
+		res.locals.session.hasPermission('service.canAddFile', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['Du hast keine Rechte - also bist du kein Nazi. (service.canAddFile)']});
+
+			Service.findById(req.body.serviceId)
+				.exec(function(err, service) {
+					if (err) return jump(err);
+					if (!service) return res.send({errors: ['no such service']});
+
+					service.files.push({name: req.body.name, content: req.body.content});
+					service.save(function(err) {
+						if (err) return jump(err);
+
+						res.send({template: 'ServiceFileAdd', data: {service: service, file: {name: req.body.name}}});
+					});
+				});
+		});
+	});
+
+	app.get('/ServiceFileEdit', function(req, res, jump) {
+		res.locals.session.hasPermission('service.canEditFile', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['Du hast keine Rechte - also bist du kein Nazi. (service.canEditFile)']});
+
+			Service.findById(req.query.serviceId)
+				.exec(function(err, service) {
+					if (err) return jump(err);
+					if (!service) return res.send({errors: ['no such service']});
+
+					var file = service.files.find(function(file) {return file.name == req.query.name});
+					if (!file) return res.send({errors: ['file not found']});
+					res.send({template: 'ServiceFileEdit', data: {service: service, file: file}});
+				});
+		});
+	});
+
+	app.post('/ServiceFileEdit', function(req, res, jump) {
+		res.locals.session.hasPermission('service.canEditFile', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['Du hast keine Rechte - also bist du kein Nazi. (service.canEditFile)']});
+
+			Service.findById(req.body.serviceId)
+				.exec(function(err, service) {
+					if (err) return jump(err);
+					if (!service) return res.send({errors: ['no such service']});
+
+					var index = service.files.findIndex(function(file) {return file.name == req.body.name});
+					if (index < 0) return res.send({errors: ['file not found']});
+					service.files[index].content = req.body.content;
+					service.save(function(err) {
+						if (err) return jump(err);
+
+						res.send({status: 'success', data: {service: service, file: service.files[index]}});
+					});
+				});
+		});
+	});
+
+	app.get('/ServiceFileDelete', function(req, res, jump) {
+		res.locals.session.hasPermission('service.canDeleteFile', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['Du hast keine Rechte - also bist du kein Nazi. (service.canDeleteFile)']});
+
+			Service.findById(req.query.serviceId)	
+				.exec(function(err, service) {
+					if (err) return jump(err);
+					if (!service) return res.send({errors: ['no such service']});
+
+					var index = service.files.findIndex(function(file) {return file.name == req.query.name});
+					if (index < 0) return res.send({errors: ['file not found']});
+					service.files.splice(index, 1);
+					service.save(function(err) {
+						if (err) return jump(err);
+
+						res.writeHead(302, {'Location': '/ServiceView?sessionId='+res.locals.session._id+'&serviceId='+service._id+'&status=success.fileDelete'});
+						res.end();
+					});
+				});
+		});
+	});
 };
