@@ -11,9 +11,9 @@ form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 		input(type="text" name="ip" required)
 	.field
 		label Eigentümer
-		select(name="ownerId")
+		select(name="companyId")
 			each company in data.companies
-				option(value="company._id") #{company.name}
+				option(value=company._id) #{company.name}
 	.field
 		label Domains
 		input(type="text" name="domains")

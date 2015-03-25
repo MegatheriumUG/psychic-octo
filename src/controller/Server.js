@@ -28,10 +28,10 @@ exports.setup = function(app) {
 
 			Company.find({})
 				.sort('name')
-				.exec(function(err, owners) {
+				.exec(function(err, companies) {
 					if (err) return jump(err);
 
-					res.send({template: 'ServerAdd', data: {owners: owners}});
+					res.send({template: 'ServerAdd', data: {companies: companies}});
 				});
 		});
 	});
@@ -43,7 +43,7 @@ exports.setup = function(app) {
 
 			var server = new Server({
 				ip: req.body.ip,
-				owner: req.body.ownerId,
+				owner: req.body.companyId,
 				domains: [],
 				resources: {
 					ram: req.body.ram,
@@ -58,21 +58,21 @@ exports.setup = function(app) {
 				if (parts[i]) server.domains.push(parts[i]);
 			}
 
-			var owners = [];
+			var companies = [];
 			async.parallel([
 				function(next) {server.save(next);},
 				function(next) {
 					Company.find({})
 						.sort('name')
 						.exec(function(err, items) {
-							owners = items;
+							companies = items;
 							next(err);
 						});
 				}
 			], function(err) {
 				if (err) return jump(err);
 
-				res.send({status: 'success', template: 'ServerAdd', data: {owners: owners}});
+				res.send({status: 'success', template: 'ServerAdd', data: {companies: companies, server: server}});
 			});
 		});
 	});
@@ -100,7 +100,7 @@ exports.setup = function(app) {
 					Company.find({})
 						.sort('name')
 						.exec(function(err, items) {
-							servers = items;
+							companies = items;
 							next(err);
 						});
 				}

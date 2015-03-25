@@ -5,7 +5,7 @@ h1 Server unter #{data.server.ip} bearbeiten
 if status == 'success'
 	p.success Server unter #{data.server.ip} erfolgreich bearbeitet.
 
-form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
+form(method="POST" action="/ServerEdit?sessionId=#{sessionId}")
 	.field
 		label IP
 		input(type="text" name="ip" required value=data.server.ip)
@@ -13,7 +13,7 @@ form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 		label Eigentümer
 		select(name="ownerId")
 			each company in data.companies
-				option(value="company._id" selected=data.server.owner._id==company._id ? '' : undefined) #{company.name}
+				option(value=company._id selected=data.server.owner._id==company._id ? '' : undefined) #{company.name}
 	.field
 		label Domains
 		input(type="text" name="domains" value=data.server.domains)
@@ -31,4 +31,5 @@ form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 		label SSDs
 		input(type="number" name="sdd" min="0" step="1" value=data.server.resources.ssd)
 	.button
+		input(type="hidden" name="serverId" value=data.server._id)
 		input.innerButton(type="submit" value="Aktualisieren")
