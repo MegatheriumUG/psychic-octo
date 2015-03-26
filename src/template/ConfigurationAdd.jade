@@ -1,0 +1,29 @@
+include ./header.jade
+
+h1 Konfiguration hinzufügen
+
+if data.service != undefined
+	.button
+		a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") < Dienst #{data.service.name}
+	h2 zu Dienst #{data.service.name}
+if data.deployment != undefined
+	.button
+		a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&sdeploymentId=#{data.deployment._id}") < Deployment #{data.deployment.name}
+	h2 zu Deployment #{data.deployment.name}
+
+form(method="POST" action="/ConfigurationAdd?sessionId=#{sessionId}")
+	.field
+		label Vorhanden
+		select(name="configurationId")
+			option(value="") ------
+			each config in data.configurations
+				option(value=config._id) #{config.name}
+	.field
+		label Neu
+		label Name
+		input(type="text" name="name")
+	if data.service != undefined
+		input(type="hidden" name="serviceId" value=data.service._id)
+	if data.deployment != undefined
+		input(type="hidden" name="deploymentId" value=data.deployment._id)
+	input(type="submit" value="Hinzufügen")

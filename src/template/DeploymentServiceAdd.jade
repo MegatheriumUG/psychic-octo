@@ -4,12 +4,15 @@ h1 Deployment Dienst hinzufügen
 
 form(method="POST" action="DeploymentServiceAdd?sessionId=#{sessionId}")
 	.field
+		label Service
 		select(name="serviceId")
 			each service in data.services
 				option(value=service._id) #{service.name}
+	.field
+		label Server
 		select(name="servers" multiple)
 			each server in data.servers
 				option(value=server._id) #{server.ip}
 		input(type="hidden" name="deploymentId" value=data.deployment._id)
-		.button
-			input.innerButton(type="submit" value="Hinzufügen")
+	.button
+		input.innerButton(type="submit" value="Hinzufügen")

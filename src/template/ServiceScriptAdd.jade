@@ -3,7 +3,7 @@ include ./header.jade
 h1 Skript erstellen
 
 .button
-	a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") #{data.service.name}
+	a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") < Dienst #{data.service.name}
 
 form(method="POST" action="/ServiceScriptAdd?sessionId=#{sessionId}")
 	.field

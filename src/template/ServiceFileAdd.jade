@@ -1,5 +1,8 @@
 include ./header.jade
 
+.button
+	a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") < Dienst #{data.service.name}
+
 h1 Dienst Datei hinzufügen
 
 form(method="POST" action="/ServiceFileAdd?sessionId=#{sessionId}")

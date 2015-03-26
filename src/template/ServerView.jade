@@ -25,14 +25,21 @@ table
 			td #{data.server.ip}
 			td #{data.server.owner.name}
 			td
-				each domain in data.server.domains
-					p #{domain}
-				form(method="POST" action="/ServerDomainAdd?sessionId=#{sessionId}")
-					.field
-						label Domain
-						input(type="text" name="domain")
-					.button
-						input.innerButton(type="submit" value="Domain hinzufügen")
+				table
+					tbody
+
+					each domain in data.server.domains
+						tr
+							td #{domain}
+					tr
+						td
+							form(method="POST" action="/ServerDomainAdd?sessionId=#{sessionId}")
+								.field
+									label Domain
+									input(type="text" name="domain")
+									input(type="hidden" name="serverId" value=data.server._id)
+								.button
+									input.innerButton(type="submit" value="Domain hinzufügen")
 			td #{data.server.resources.ram}
 			td #{data.server.resources.cpu}
 			td #{data.server.resources.hdd}

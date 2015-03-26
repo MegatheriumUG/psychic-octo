@@ -34,7 +34,7 @@ table
 						tbody
 							each service in deployment.services
 								tr
-									td #{service.name}
+									td #{service.service.name}
 				td
 					.button
 						a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&deploymentId=#{deployment._id}") Übersicht

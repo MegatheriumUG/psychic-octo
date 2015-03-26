@@ -27,8 +27,11 @@ table
 				td #{server.ip}
 				td #{server.owner.name}
 				td
-					each domain in server.domains
-						p #{domain}
+					table
+						tbody
+							each domain in server.domains
+								tr
+									td #{domain}
 				td #{server.resources.ram}
 				td #{server.resources.cpus}
 				td #{server.resources.hdd}

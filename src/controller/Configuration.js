@@ -47,8 +47,8 @@ exports.setup = function(app) {
 					configuration.save(function(err) {
 						if (err) return jump(err);
 
-						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+req.query.sessionId+'&configurationId='+req.body.configurationId+'&status=success.add'});
-						res.send();
+						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+res.locals.session._id+'&configurationId='+req.body.configurationId+'&status=success.add'});
+						res.end();
 					})
 				});
 		});
@@ -74,8 +74,8 @@ exports.setup = function(app) {
 					configuration.save(function(err) {
 						if (err) return jump(err);
 
-						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+req.query.sessionId+'&configurationId='+req.body.configurationId+'&status=success.delete'});
-						res.send();
+						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+req.query.sessionId+'&configurationId='+req.query.configurationId+'&status=success.delete'});
+						res.end();
 					});
 				});
 		});
@@ -92,8 +92,8 @@ exports.setup = function(app) {
 					if (!configuration) return res.send({errors: ['No such config']});
 
 					for (var i = 0; i < configuration.fields.length; ++i) {
-						if (configuration.fields[i].name == req.query.name) {
-							configuration.fields.splice(i, 1);
+						if (configuration.fields[i].name == req.body.name) {
+							configuration.fields[i].value = req.body.value;
 							break;
 						}
 					}
@@ -101,8 +101,8 @@ exports.setup = function(app) {
 					configuration.save(function(err) {
 						if (err) return jump(err);
 
-						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+req.query.sessionId+'&configurationId='+req.body.configurationId+'&status=success.edit'});
-						res.send();
+						res.writeHead(302, {'Location': '/ConfigurationFieldList?sessionId='+res.locals.session._id+'&configurationId='+req.body.configurationId+'&status=success.edit'});
+						res.end();
 					});
 				})
 		});
@@ -144,7 +144,7 @@ exports.setup = function(app) {
 					Service.findById(req.query.serviceId)
 						.exec(function(err, item) {
 							if (err) return next(err);
-							if (!service) return res.send({errors: ['no such service']});
+							if (!item) return res.send({errors: ['no such service']});
 							service = item;
 							next();
 						});

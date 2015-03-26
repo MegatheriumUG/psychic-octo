@@ -168,7 +168,7 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!server) return res.send({errors: ['Der Server ist nonexistent.']});
 
-					var response = {template: 'server.canView', data: {server: server}};
+					var response = {template: 'ServerView', data: {server: server}};
 					if (req.query.status) response.status = req.query.status;
 					res.send(response);
 				});

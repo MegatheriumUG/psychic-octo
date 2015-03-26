@@ -1,5 +1,8 @@
 include ./header.jade
 
+.button
+		a.innerButton(href="/ServerView?sessionId=#{sessionId}&serverId=#{data.server._id}") < Server #{data.server.ip}
+
 h1 Server unter #{data.server.ip} bearbeiten
 
 if status == 'success'

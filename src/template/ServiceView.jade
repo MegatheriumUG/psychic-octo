@@ -5,12 +5,12 @@ h1 Service #{data.service.name}
 h2 Konfiguration
 
 .button
-	a.innerButton(href="/ServiceConfigurationAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Konfiguration hinzufügen
+	a.innerButton(href="/ConfigurationAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Konfiguration hinzufügen
 table
 	thead
 		tr
 			th Anzahl Felder
-			th(colspan="2") Aktionen
+			th Aktionen
 	tbody
 		each config in data.service.configurations
 			tr
@@ -21,15 +21,25 @@ table
 
 h2 Dateien
 
+.button
+	a.innerButton(href="/ServiceFileAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Datei hinzufügen
+
 table
 	thead
 		tr
 			th Name
 			th Inhalt
+			th(colspan="2") Aktionen
 	tbody
 		each file in data.service.files
 			td #{file.name}
 			td #{file.content}
+			td
+				.button
+					a.innerButton(href="/ServiceFileEdit?sessionId=#{sessionId}&name=#{file.name}&serviceId=#{data.service._id}") Bearbeiten
+			td
+				.button
+					a.innerButton(href="/ServiceFileDelete?sessionId=#{sessionId}&name=#{file.name}&serviceId=#{data.service._id}") Löschen
 
 h2 Skripte
 .button

@@ -1,9 +1,13 @@
 include ./header.jade
 
+
+
 h1 Neuen Server erstellen
 
 if status == 'success'
 	p.success Neuen Server unter #{data.server.ip} erfolgreich erstellt.
+	.button
+		a.innerButton(href="/ServerView?sessionId=#{sessionId}&serverId=#{data.server._id}") < Server #{data.server.ip}
 
 form(method="POST" action="/ServerAdd?sessionId=#{sessionId}")
 	.field

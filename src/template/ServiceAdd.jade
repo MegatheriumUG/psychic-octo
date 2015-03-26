@@ -1,5 +1,8 @@
 include ./header.jade
 
+.button
+	a.innerButton(href="/ServiceList?sessionId=#{sessionId}") Liste der Dienste
+
 h1 Neuen Service erstellen
 
 if status == "success"

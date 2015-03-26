@@ -21,11 +21,14 @@ table
 
 h2 Konfiguration
 
+.button
+	a.innerButton(href="/ConfigurationAdd?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Konfiguration hinzufügen
+
 table
 	thead
 		tr
 			th Anzahl Felder
-			th(colspan="2") Aktionen
+			th Aktionen
 	tbody
 		each config in data.deployment.configurations
 			tr
@@ -33,9 +36,6 @@ table
 				td
 					.button
 						a.innerButton(href="/ConfigurationFieldList?sessionId=#{sessionId}&configurationId=#{config._id}") Übersicht
-				td
-					.button
-						a.innerButton(href="//DeploymentConfigurationDelete?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&configurationId=#{config._id}") Löschen
 
 h2 Dienste
 
@@ -46,30 +46,32 @@ table
 	thead
 		tr
 			th Name
-			th(colspan="3") Server
+			th(colspan="1") Server
 			th(colspan="2") Aktionen
 	tbody
 		each service in data.deployment.services
 			tr
 				td #{service.service.name}
 				td
-					each server in service.servers
-						tr
-							td #{server.ip}
-							td
-								.button
-									a.innerButton(href="/DeploymentServiceStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Start
-							td
-								.button
-									a.innerButton(href="/DeploymentServiceStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Stop
-							if server.installed
-								td
-									.button
-										a.innerButton(href="/DeploymentServiceUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Deinstallieren
-							else
-								td
-									.button
-										a.innerButton(href="/DeploymentServiceInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Installieren
+					table
+						tbody
+							each server in service.servers
+								tr
+									td #{server.server.ip}
+									td
+										.button
+											a.innerButton(href="/DeploymentServiceStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Start
+									td
+										.button
+											a.innerButton(href="/DeploymentServiceStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Stop
+									if server.installed
+										td
+											.button
+												a.innerButton(href="/DeploymentServiceUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Deinstallieren
+									else
+										td
+											.button
+												a.innerButton(href="/DeploymentServiceInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Installieren
 				td
-				.button
-					a.innerButton(href="/DeploymentServiceEdit?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#[service._id}")			
+					.button
+						a.innerButton(href="/DeploymentServiceEdit?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#[service._id}") Bearbeiten	
