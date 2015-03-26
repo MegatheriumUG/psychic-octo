@@ -1,6 +1,7 @@
 var async = require('async'),
 	Deployment = require('../model/Deployment.js'),
-	Server = require('../model/Server.js');
+	Server = require('../model/Server.js'),
+	Service = require('../model/Service.js');
 
 exports.setup = function(app) {
 	app.get('/DeploymentList', function(req, res, jump) {
