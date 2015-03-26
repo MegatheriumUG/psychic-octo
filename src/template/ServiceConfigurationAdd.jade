@@ -1,0 +1,13 @@
+include ./header.jade
+
+h1 Konfiguration erstellen
+
+form(method="POST" action="/ServiceConfigurationAdd?sessionId=#{sessionId}")
+	.field
+		label Name
+		input(type="text" name="name")
+	.field
+		label Wert
+		input(type="text" name="value")
+	.button
+		input.innerButton(type="submit" value="Erstellen")

@@ -1,0 +1,30 @@
+include ./header.jade
+
+h1 Konfiguration
+
+if status == "success.add"
+	p.success Feld erfolgreich hinzugefügt
+if status == "success.delete"
+	p.success Feld erfolgreich gelöscht
+if status == "success.edit"
+	p.success Feld erfolgreich aktualisiert
+
+.button
+	a.innerButton(href="/ConfigurationFieldAdd?sessionId=#{sessionId}&configurationId=#{data.configuration._id}") Feld hinzufügen
+table
+	thead
+		tr
+			th Name
+			th Wert
+			th(colspan="2") Aktionen
+	tbody
+		each field in data.configuration.fields
+			tr
+				td #{field.name}
+				td #{field.value}
+				td
+					.button
+						a.innerButton(href="/ConfigurationFieldEdit?sessionId=#{sessionId}&configurationId=#{data.configuration._id}&name=#{field.name}") Bearbeiten
+				td
+					.button
+						a.innerButton(href="/ConfigurationFieldDelete?sessionId=#{sessionId}&configurationId=#{data.configuration._id}&name=#{field.name}") Löschen

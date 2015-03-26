@@ -5,18 +5,19 @@ h1 Service #{data.service.name}
 h2 Konfiguration
 
 .button
-	a.innerButton(href="/ServiceConfigurationAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Skript hinzufügen
+	a.innerButton(href="/ServiceConfigurationAdd?sessionId=#{sessionId}&serviceId=#{data.service._id}") Konfiguration hinzufügen
 table
 	thead
 		tr
-			th Name
-			th Wert
+			th Anzahl Felder
 			th(colspan="2") Aktionen
 	tbody
 		each config in data.service.configurations
 			tr
-				td #{config.name}
-				td #{config.value}
+				td #{config.fields.length} Felder
+				td
+					.button
+						a.innerButton(href="/ConfigurationFieldList?sessionId=#{sessionId}&configurationId=#{config._id}") Übersicht
 
 h2 Dateien
 

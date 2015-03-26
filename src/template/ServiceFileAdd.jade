@@ -1,0 +1,13 @@
+include ./header.jade
+
+h1 Dienst Datei hinzufügen
+
+form(method="POST" action="/ServiceFileAdd?sessionId=#{sessionId}")
+	.field
+		label Name
+		input(type="text" name="name")
+	.field
+		label Inhalt
+		textarea(name="content")
+	input(type="hidden" name="serviceId" value=data.service._id)
+	input(type="submit" value="Hinzufügen")

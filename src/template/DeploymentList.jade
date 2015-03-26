@@ -1,0 +1,43 @@
+include ./header.jade
+
+h1 Deployments
+
+if status == "success.add"
+	p.success Deployment erfolgreich erstellt
+if status == "success.delete"
+	p.success Deployment erfolgreich gelöscht
+
+form(method="POST" action="/DeploymentAdd?sessionId=#{sessionId}")
+	.field
+		label Name
+		input(type="text" name="name")
+	.field
+		label Beschreibung
+		input(type="text" name="description")
+	.button
+		input.innerButton(type="submit" value="Deployment erstellen")
+
+table
+	thead
+		tr
+			th Name
+			th Beschreibung
+			th Dienste
+			th(colspan="2") Aktionen
+	tbody
+		each deployment in data.deployments
+			tr
+				td #{deployment.name}
+				td #{deployment.description}
+				td
+					table
+						tbody
+							each service in deployment.services
+								tr
+									td #{service.name}
+				td
+					.button
+						a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&deploymentId=#{deployment._id}") Übersicht
+				td
+					.button
+						a.innerButton(href="/DeploymentDelete?sessionId=#{sessionId}&deploymentId=#[deployment._id}") Löschen

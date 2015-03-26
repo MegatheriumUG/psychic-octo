@@ -1,0 +1,75 @@
+include ./header.jade
+
+h1 Deployment #{data.deployment.name}
+
+if status == "success.add"
+	p.success Deployment erfolgreich erstellt
+if status == "success.configurationDelete"
+	p.success Konfiguration erfolgreich gelöscht
+
+table
+	thead
+		tr
+			th Name
+			th Beschreibung
+			th Dienste
+			th(colspan="2") Aktionen
+	tbody
+		tr
+			td #{data.deployment.name}
+			td #{data.deployment.description}
+
+h2 Konfiguration
+
+table
+	thead
+		tr
+			th Anzahl Felder
+			th(colspan="2") Aktionen
+	tbody
+		each config in data.deployment.configurations
+			tr
+				td #{config.fields.length} Felder
+				td
+					.button
+						a.innerButton(href="/ConfigurationFieldList?sessionId=#{sessionId}&configurationId=#{config._id}") Übersicht
+				td
+					.button
+						a.innerButton(href="//DeploymentConfigurationDelete?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&configurationId=#{config._id}") Löschen
+
+h2 Dienste
+
+.button
+	a.innerButton(href="/DeploymentServiceAdd?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Dienst hinzufügen
+
+table
+	thead
+		tr
+			th Name
+			th(colspan="3") Server
+			th(colspan="2") Aktionen
+	tbody
+		each service in data.deployment.services
+			tr
+				td #{service.service.name}
+				td
+					each server in service.servers
+						tr
+							td #{server.ip}
+							td
+								.button
+									a.innerButton(href="/DeploymentServiceStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Start
+							td
+								.button
+									a.innerButton(href="/DeploymentServiceStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Stop
+							if server.installed
+								td
+									.button
+										a.innerButton(href="/DeploymentServiceUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Deinstallieren
+							else
+								td
+									.button
+										a.innerButton(href="/DeploymentServiceInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Installieren
+				td
+				.button
+					a.innerButton(href="/DeploymentServiceEdit?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#[service._id}")			

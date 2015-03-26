@@ -1,0 +1,13 @@
+include ./header.jade
+
+h1 Deployment erstellen
+
+form(method="POST" action="/DeploymentAdd?sessionId=#{sessionId}")
+	.field
+		label Name
+		input(type="text" name="name")
+	.field
+		label Beschreibung
+		input(type="text" name="description")
+	.button
+		input.innerButton(type="submit" value="Erstellen")

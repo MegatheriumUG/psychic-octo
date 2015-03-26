@@ -1,0 +1,11 @@
+include ./header.jade
+
+h1 Dienst Datei #{data.file.name} editieren
+
+form(method="POST" action="/ServiceFileEdit?sessionId=#{sessionId}")
+	.field
+		label Inhalt
+		textarea(name="content")
+	input(type="hidden" name="serviceId" value=data.service._id)
+	input(type="hidden" name="name" value=data.file.name)
+	input(type="submit" value="Aktualisieren")
