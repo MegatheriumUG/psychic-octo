@@ -51,7 +51,7 @@ Aktuelle ToDos:
 		GET /ServiceScriptDelete
 			- entfernt ein Skript und leitet danach zu ServiceView mit dem Status "success.scriptDelete" weiter
 		GET /ConfigurationFieldList
-			- listet in einer Tabelle die Konfigurations-Werte EINER Konfiguration eines Services auf. Anstelle der Konfiguration eines Services, kann auch die Konfiguration eines Deployments aufgelistet werden. Definitiv wird hier aber nur eine Configuration dargestellt.
+			- listet in einer Tabelle die Konfigurations-Werte EINER Konfiguration auf.
 			- beinhaltet ein Ein-Zeilen-Formular mit den Feldern "Name" und "Wert" (name and value), über das ein neues Konfigurationspaar hinzugefügt wird (siehe POST /ServiceConfigurationFieldAdd)
 			- falls möglich: per "klick" in die Tabellenspalte soll sich der Wert zu einem input-Element umwandeln, darin steht der bisherige Wert. Rechts davon ist ein submit-Button, das ganze steht in einem Formular, welcher zu POST /ConfigurationFieldEdit verlinkt, und neben der configurationId auch den name des Wertes angibt. Ansonsten richten wir noch ein GET /ConfigurationFieldEdit-Formular ein.
 			- hat status "success.add", wenn ein Feld erfolgreich hinzugefügt wurde - oder "success.edit" und "success.delete"
@@ -140,3 +140,19 @@ Aktuelle ToDos:
 			- lösccht eine Datei
 			- erhält hierzu serviceId und name (Name der Datei)
 			- leitet zu ServiceView mit Status "success.fileDelete" um
+
+		GET /ConfigurationAdd
+		POST /ConfigurationAdd
+			- Formular, welches eine bestehende Konfiguration zu einem Service oder einem Deployment hinzufügt, ODER eine neue Konfiguration erstellt und diese zu einem Service oder Deployment hinzufügt
+			- Eingabefelder: "Auswahlbox", "Name"
+			- In der Auswahlbox soll eine liste der bisherigen Konfigurationen stehen, damit man eine bestehende Konfiguration auswählen und zu einem Service oder Deployment hinzufügen kann
+			- wenn man eine neue Configuration erstellen will, füllt man stattdessen das Textfeld "Name" aus; im Anschluss wird eine Configuration mit dem Namen erstellt
+			- wird serviceId übermittelt, dann wird die config zu dem service hinzugefügt; wird deploymentId übermittelt, wird sie zum deployment hinzugefügt
+
+		GET /ConfigurationEdit
+		POST /ConfigurationEdit
+			- lediglich ein Formular zum umbenennen einer Konfiguration.
+			- hat nichts mit deployments oder services zu tun, sondern nur mit der Konfiguration
+
+		GET /ConfigurationDelete
+			- entfernt eine Konfiguration von einem Service oder einem Deployment. leitet danach zur ServiceView oder zur DeploymentView mit dem Status "success.configurationDelete" weiter
