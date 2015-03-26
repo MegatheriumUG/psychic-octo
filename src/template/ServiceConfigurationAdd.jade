@@ -9,5 +9,6 @@ form(method="POST" action="/ServiceConfigurationAdd?sessionId=#{sessionId}")
 	.field
 		label Wert
 		input(type="text" name="value")
+	input(type="hidden" name="serviceId" value=data.service._id)
 	.button
 		input.innerButton(type="submit" value="Erstellen")
