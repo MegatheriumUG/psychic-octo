@@ -214,4 +214,31 @@ exports.setup = function(app) {
 				});
 		});
 	});
+
+	app.get('/DeploymentServiceDelete', function(req, res, jump) {
+		res.locals.session.hasPermission('deployment.canDeleteService', function(err, has) {
+			if (err) return jump(err);
+			if (!has) return res.send({template: 'PermissionError', errors: ['keine rechte wie bei ner autonomen demo (deployment.canDeleteService)']});
+
+			Deployment.findById(req.query.deploymentId)
+				.exec(function(err, deployment) {
+					if (err) return jump(err);
+					if (!deployment) return res.send({errors: ['no such deploy']});
+
+					for (var i = 0; i < deployment.services.length; ++i) {
+						if (deployment.services[i].service.equals(req.query.serviceId)) {
+							deployment.services.splice(i, 1);
+							break;
+						}
+					}
+
+					deployment.save(function(err) {
+						if (err) return jump(err);
+
+						res.writeHead(302, {'Location': '/DeploymentView?sessionId='+res.locals.session._id+'&deploymentId='+deployment._id+'&status=success.serviceDelete'});
+						res.end();
+					});
+				});
+		});
+	});
 }

@@ -142,7 +142,7 @@ exports.setup = function(app) {
 
 					script.type = req.body.type;
 					script.commands = [];
-					var parts = req.body.commands.split(',');
+					var parts = req.body.commands.split('\n');
 					for (var i = 0; i < parts.length; ++i) {
 						parts[i] = parts[i].trim();
 						if (parts[i]) script.commands.push(parts[i]);

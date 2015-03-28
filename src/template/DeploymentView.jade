@@ -7,6 +7,9 @@ if status == "success.add"
 if status == "success.configurationDelete"
 	p.success Konfiguration erfolgreich gelöscht
 
+.button
+	a.innerButton(href="/DeploymentInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Installieren
+
 table
 	thead
 		tr
@@ -60,18 +63,21 @@ table
 									td #{server.server.ip}
 									td
 										.button
-											a.innerButton(href="/DeploymentServiceStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Start
+											a.innerButton(href="/DeploymentServiceStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}&serverId=#{server._id}") Start
 									td
 										.button
-											a.innerButton(href="/DeploymentServiceStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Stop
+											a.innerButton(href="/DeploymentServiceStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}&serverId=#{server._id}") Stop
 									if server.installed
 										td
 											.button
-												a.innerButton(href="/DeploymentServiceUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Deinstallieren
+												a.innerButton(href="/DeploymentServiceUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}&serverId=#{server._id}") Deinstallieren
 									else
 										td
 											.button
-												a.innerButton(href="/DeploymentServiceInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service._id}&serverId=#{server._id}") Installieren
+												a.innerButton(href="/DeploymentServiceInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}&serverId=#{server._id}") Installieren
 				td
 					.button
-						a.innerButton(href="/DeploymentServiceEdit?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#[service._id}") Bearbeiten	
+						a.innerButton(href="/DeploymentServiceEdit?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}") Bearbeiten	
+				td
+					.button
+						a.innerButton(href="/DeploymentServiceDelete?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}&serviceId=#{service.service._id}") Löschen
