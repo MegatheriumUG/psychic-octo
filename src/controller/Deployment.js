@@ -37,6 +37,7 @@ exports.setup = function(app) {
 
 					var response = {template: 'DeploymentView', data: {deployment: deployment}};
 					if (req.query.status) response.status = req.query.status;
+					if (req.query.message) response.data.message = req.query.message;
 					res.send(response);
 				});
 		});

@@ -150,7 +150,9 @@ exports.setup = function(app) {
 					script.save(function(err) {
 						if (err) return jump(err);
 
-						res.send({status: 'success', template: 'ServiceScriptEdit', data: {script: script}});
+						var service = script.service;
+						delete script.service;
+						res.send({status: 'success', template: 'ServiceScriptEdit', data: {script: script, service: service}});
 					});
 				});
 		});
@@ -221,7 +223,13 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!service) return res.send({errors: ['no such service']});
 
-					var file = service.files.find(function(file) {return file.name == req.query.name});
+					var file = null;
+					for (var i = 0; i < service.files.length; ++i) {
+						if (service.files[i].name == req.query.name) {
+							file = service.files[i];
+							break;
+						}
+					}
 					if (!file) return res.send({errors: ['file not found']});
 					res.send({template: 'ServiceFileEdit', data: {service: service, file: file}});
 				});
@@ -238,13 +246,19 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!service) return res.send({errors: ['no such service']});
 
-					var index = service.files.findIndex(function(file) {return file.name == req.body.name});
+					var index = -1;
+					for (var i = 0; i < service.files.length; ++i) {
+						if (service.files[i].name == req.body.name) {
+							index = i;
+							break;
+						}
+					}
 					if (index < 0) return res.send({errors: ['file not found']});
 					service.files[index].content = req.body.content;
 					service.save(function(err) {
 						if (err) return jump(err);
 
-						res.send({status: 'success', data: {service: service, file: service.files[index]}});
+						res.send({status: 'success', template: 'ServiceFileEdit', data: {service: service, file: service.files[index]}});
 					});
 				});
 		});
@@ -260,7 +274,13 @@ exports.setup = function(app) {
 					if (err) return jump(err);
 					if (!service) return res.send({errors: ['no such service']});
 
-					var index = service.files.findIndex(function(file) {return file.name == req.query.name});
+					var index = -1;
+					for (var i = 0; i< service.files.length; ++i) {
+						if (service.files[i].name == req.query.name) {
+							index = i;
+							break;
+						}
+					}
 					if (index < 0) return res.send({errors: ['file not found']});
 					service.files.splice(index, 1);
 					service.save(function(err) {

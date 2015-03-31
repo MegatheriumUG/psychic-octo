@@ -64,6 +64,7 @@ app.all('*', function(req, res, callback) {
 	'Company',
 	'Configuration',
 	'Deployment',
+	'DeploymentExt',
 	'DiscussionPost',
 	'DiscussionThread',
 	'Fonds',

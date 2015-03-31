@@ -4,11 +4,25 @@ h1 Deployment #{data.deployment.name}
 
 if status == "success.add"
 	p.success Deployment erfolgreich erstellt
-if status == "success.configurationDelete"
+else if status == "success.configurationDelete"
 	p.success Konfiguration erfolgreich gelöscht
+else if status == 'success.install'
+	p.success Deployment wurde erfolgreich auf Servern installiert
+else if status == 'success.uninstall'
+	p.success Deployment wurde erfolgreich von Servern deinstalliert
+else if status == 'success.start'
+	p.success Deployment wurde erfolgreich gestartet
+else if status == 'success.end'
+	p.success Deployment wurde erfolgreich gestoppt
+
+if data.message
+	p !{data.message.replace(/\n/g, '<br>')}
 
 .button
 	a.innerButton(href="/DeploymentInstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Installieren
+	a.innerButton(href="/DeploymentUninstall?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Deinstallieren
+	a.innerButton(href="/DeploymentStart?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Starten
+	a.innerButton(href="/DeploymentStop?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") Stoppen
 
 table
 	thead
