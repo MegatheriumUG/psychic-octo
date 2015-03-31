@@ -2,10 +2,13 @@ include ./header.jade
 
 h1 Dienst Datei #{data.file.name} editieren
 
+.button
+	a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") #{data.service.name}
+
 form(method="POST" action="/ServiceFileEdit?sessionId=#{sessionId}")
 	.field
 		label Inhalt
-		textarea(name="content")
+		textarea(name="content" style="min-height:200px") #{data.file.content}
 	input(type="hidden" name="serviceId" value=data.service._id)
 	input(type="hidden" name="name" value=data.file.name)
 	input(type="submit" value="Aktualisieren")

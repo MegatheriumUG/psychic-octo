@@ -33,7 +33,7 @@ table
 	tbody
 		each file in data.service.files
 			td #{file.name}
-			td #{file.content}
+			td !{file.content.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;')}
 			td
 				.button
 					a.innerButton(href="/ServiceFileEdit?sessionId=#{sessionId}&name=#{file.name}&serviceId=#{data.service._id}") Bearbeiten

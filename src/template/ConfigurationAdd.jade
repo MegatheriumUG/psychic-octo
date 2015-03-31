@@ -8,7 +8,7 @@ if data.service != undefined
 	h2 zu Dienst #{data.service.name}
 if data.deployment != undefined
 	.button
-		a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&sdeploymentId=#{data.deployment._id}") < Deployment #{data.deployment.name}
+		a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") < Deployment #{data.deployment.name}
 	h2 zu Deployment #{data.deployment.name}
 
 form(method="POST" action="/ConfigurationAdd?sessionId=#{sessionId}")

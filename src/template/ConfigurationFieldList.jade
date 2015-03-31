@@ -22,6 +22,13 @@ script.
 		}
 	}
 
+if data.service
+	.button
+		a.innerButton(href="/ServiceView?sessionId=#{sessionId}&serviceId=#{data.service._id}") #{data.service.name}
+else if data.deployment
+	.button
+		a.innerButton(href="/DeploymentView?sessionId=#{sessionId}&deploymentId=#{data.deployment._id}") #{data.deployment.name}
+
 form(method="POST" action="/ConfigurationFieldAdd?sessionId=#{sessionId}")
 	.field
 		label Name

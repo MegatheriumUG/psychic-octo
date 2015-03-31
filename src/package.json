@@ -15,6 +15,7 @@
 		"async": "*",
 		"bcrypt": "*",
 		"body-parser": "*",
+		"dot": "1.0.x",
 		"express": "4.2.x",
 		"jade": "*",
 		"mongoose": "3.8.x",
